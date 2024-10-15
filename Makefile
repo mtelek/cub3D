@@ -1,9 +1,10 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 SRCDIR = .
 OBJDIR = .objs
-SRCS = main.c 
+SRCS = main.c \
+		Libft_utils/libft_utils1.c \
 
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
