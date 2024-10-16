@@ -6,11 +6,40 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 23:46:24 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 00:43:11 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/16 22:11:08 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
+
+char	*ft_strchr(const char *str, int c)
+{
+	while (*str != '\0')
+	{
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
+	}
+	if ((char)c == '\0')
+		return ((char *)str);
+	return (NULL);
+}
+
+int	ft_strncmp(const char *str1, const char *str2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (i < n && (str1[i] != '\0' || str2[i] != '\0'))
+	{
+		if (str1[i] != str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
+	}
+	return (0);
+}
 
 size_t	ft_strlen(const char *str)
 {

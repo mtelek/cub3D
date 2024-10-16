@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 00:52:59 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/16 23:11:05 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,44 @@
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
 
+typedef struct s_textures
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*floor;
+	char	*ceiling;
+}			t_textures;
+
 typedef struct s_main
 {
-	char	**content;
-	char	**content_base;
-}	t_main;
+	char		**content;
+	char		**content_base;
+	char		**map;
+	t_textures	*textures;
+}				t_main;
+
+//INIT
+int		init_main(t_main *main);
+void	init_textures(t_textures *textures);
+int		init_map(t_main *main);
+int		process_buffer(char *buffer, t_main *main, int *index);
+int		read_file(const char *filename, t_main *main);
+char	*find_line(t_main *main, char *to_find, int length);
+int		split_content(t_main *main);
+
+//FREE
+void	free_function(t_main *main);
+void	free_after_split(t_main *main);
 
 //LIBFT_UTILS
 char	*ft_strdup(const char *s1);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);
+char	*ft_strchr(const char *str, int c);
+
+//HELPER_FUNCTIONS
+void	print_textures(t_textures *textures);
+void	print_map(char **map);
 
 #endif

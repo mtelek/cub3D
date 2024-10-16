@@ -3,8 +3,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 SRCDIR = .
 OBJDIR = .objs
-SRCS = main.c \
+SRCS = main.c init.c init2.c free.c \
 		Libft_utils/libft_utils1.c \
+		helper_functions.c \
 
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)

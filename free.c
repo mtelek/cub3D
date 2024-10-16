@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
+/*   Updated: 2024/10/16 23:10:52 by mtelek           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Headers/cub3D.h"
+
+void	free_textures(t_main *main)
+{
+	if (main->textures)
+	{
+		if (main->textures->no)
+			free(main->textures->no);
+		if (main->textures->so)
+			free(main->textures->so);
+		if (main->textures->we)
+			free(main->textures->we);
+		if (main->textures->ea)
+			free(main->textures->ea);
+		if (main->textures->floor)
+			free(main->textures->floor);
+		if (main->textures->ceiling)
+			free(main->textures->ceiling);
+		free(main->textures);
+		main->textures = NULL;
+	}
+}
+
+void	free_map(t_main *main)
+{
+	char	**temp;
+
+	if (main->map)
+	{
+		temp = main->map;
+		while (*temp)
+		{
+			free(*temp);
+			temp++;
+		}
+		free(main->map);
+	}
+}
+
+void	free_content(t_main *main)
+{
+	char	**temp;
+
+	if (main->content)
+	{
+		temp = main->content;
+		while (*temp)
+		{
+			free(*temp);
+			temp++;
+		}
+		free(main->content_base);
+	}
+}
+
+void	free_function(t_main *main)
+{
+	free_content(main);
+	free_map(main);
+	free_textures(main);
+}
+
+void	free_after_split(t_main *main)
+{
+	free_content(main);
+	free_textures(main);
+}
