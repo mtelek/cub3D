@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 23:11:05 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/18 00:05:09 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,17 @@
 # include <unistd.h>  
 # include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
+#include "/mnt/c/Users/marci/minilibx-linux/mlx.h"
+#include <X11/Xlib.h>
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
+
+typedef struct  s_data {
+    void    *mlx_ptr;
+    void    *win_ptr;
+}               t_data;
 
 typedef struct s_textures
 {
@@ -38,6 +46,7 @@ typedef struct s_main
 	char		**content_base;
 	char		**map;
 	t_textures	*textures;
+	t_data		*data;
 }				t_main;
 
 //INIT

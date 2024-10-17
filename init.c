@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 23:14:52 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/17 23:05:59 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ int	init_main(t_main *main)
 	if (!main->textures)
 		return (printf(ERR_MF_TEXTURES), 1);
 	init_textures(main->textures);
+	main->data = malloc(sizeof(t_data));
+	if (!main->data)
+		return (1); //printf missing
 	return (0);
 }
