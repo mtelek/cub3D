@@ -6,11 +6,11 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:55:34 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 23:17:43 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 00:01:12 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Headers/cub3D.h"
+#include "../Headers/cub3D.h"
 
 int	process_buffer(char *buffer, t_main *main, int *index)
 {

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/19 19:39:30 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/19 23:57:51 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ int		process_buffer(char *buffer, t_main *main, int *index);
 int		read_file(const char *filename, t_main *main);
 char	*find_line(t_main *main, char *to_find, int length);
 int		split_content(t_main *main);
+
+//MAP_CHECK
+int		map_check(t_main *main);
+
+//MAP
+void	draw_map(t_main *main);
+
+//MLX
+int		init_mlx(t_main *main);
 
 //FREE
 void	free_function(t_main *main);
