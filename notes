@@ -1,4 +1,1 @@
 // valid map check needed
-//needed to check free when exiting with esc
-//#include <X11/Xlib.h> might be illegal
-//also protect mlx functions

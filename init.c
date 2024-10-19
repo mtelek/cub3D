@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/17 23:05:59 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/19 19:27:34 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,24 @@ int	init_map(t_main *main)
 
 	i = 0;
 	while (main->content[i] && (main->content[i][0] != '0'
-		&& main->content[i][0] != '1'))
+			&& main->content[i][0] != '1'))
 		i++;
-	main->map = malloc(sizeof(char *) * (MAX_LINES - i));
-	if (!main->map)
+	main->map->map = malloc(sizeof(char *) * (MAX_LINES - i));
+	if (!main->map->map)
 		return (printf(ERR_MF_MAP), 1);
+	main->map->mapX = malloc(sizeof(int) * (MAX_LINES - i));
+	if (!main->map->mapX)
+		return (printf(ERR_MF_MAPX), 1);
 	map_index = 0;
 	while (main->content[i])
 	{
-		main->map[map_index] = ft_strdup(main->content[i]);
-		if (!main->map[map_index])
+		main->map->map[map_index] = ft_strdup(main->content[i]);
+		if (!main->map->map[map_index])
 			return (printf(ERR_MF_MAP_LINE), 1);
 		map_index++;
 		i++;
 	}
-	main->map[map_index] = '\0';
+	main->map->map[map_index] = '\0';
 	return (0);
 }
 
@@ -57,6 +60,9 @@ int	init_main(t_main *main)
 	init_textures(main->textures);
 	main->data = malloc(sizeof(t_data));
 	if (!main->data)
-		return (1); //printf missing
+		return (printf(ERR_MF_DATA), 1);
+	main->map = malloc(sizeof(t_map));
+	if (!main->map)
+		return (printf(ERR_MF_MAP_S), 1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/18 00:05:09 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/19 19:39:30 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,19 @@
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
+# define MAP_S 64
 
-typedef struct  s_data {
+typedef struct  s_map
+{
+	char		**map;
+    int			mapS;
+	int			mapY;
+	int			*mapX;
+    
+}               t_map;
+
+typedef struct  s_data
+{
     void    *mlx_ptr;
     void    *win_ptr;
 }               t_data;
@@ -44,9 +55,9 @@ typedef struct s_main
 {
 	char		**content;
 	char		**content_base;
-	char		**map;
 	t_textures	*textures;
 	t_data		*data;
+	t_map		*map;
 }				t_main;
 
 //INIT

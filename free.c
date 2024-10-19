@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/16 23:10:52 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/19 19:55:13 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,36 @@ void	free_textures(t_main *main)
 
 void	free_map(t_main *main)
 {
-	char	**temp;
+	int	i;
 
+	i = -1;
 	if (main->map)
 	{
-		temp = main->map;
-		while (*temp)
+		if (main->map->map)
 		{
-			free(*temp);
-			temp++;
+			while (main->map->map[++i])
+				free(main->map->map[i]);
+			free(main->map->map);
 		}
+		if (main->map->mapX)
+			free(main->map->mapX);
 		free(main->map);
+		main->map = NULL;
 	}
 }
 
-void	free_content(t_main *main)
+void free_content(t_main *main)
 {
-	char	**temp;
+    int i;
 
-	if (main->content)
-	{
-		temp = main->content;
-		while (*temp)
-		{
-			free(*temp);
-			temp++;
-		}
-		free(main->content_base);
-	}
+	i = -1;
+    if (main->content)
+    {
+        while (main->content[++i])
+            free(main->content[i]);
+        free(main->content);
+        main->content = NULL;
+    }
 }
 
 void	free_function(t_main *main)
