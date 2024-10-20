@@ -6,11 +6,28 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 00:12:00 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 13:57:52 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
+
+void	spaces_to_zeros(t_main *main)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (main->map->map[++i])
+	{
+		j = -1;
+		while (main->map->map[i][++j])
+		{
+			if (main->map->map[i][j] == ' ')
+				main->map->map[i][j] = '0';
+		}
+	}
+}
 
 int	init_map(t_main *main)
 {
@@ -37,6 +54,7 @@ int	init_map(t_main *main)
 		i++;
 	}
 	main->map->map[map_index] = '\0';
+	spaces_to_zeros(main);
 	return (0);
 }
 

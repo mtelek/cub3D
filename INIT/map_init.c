@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 00:11:26 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 12:53:57 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ void	draw_rectangle(t_main *main, int x, int y, int color)
 	}
 }
 
+void	map_check_failed(t_main *main)
+{
+	free_function(main);
+	printf(ERR_INV_MAP);
+	exit(1);
+}
+
 void	draw_map(t_main *main)
 {
 	int	x;
@@ -59,11 +66,7 @@ void	draw_map(t_main *main)
 
 	count_row(main);
 	if (map_check(main) == 1)
-	{
-		free_function(main);
-		printf("Error: invalid map\n");
-		exit(1);
-	}
+		map_check_failed(main);
 	main->map->mapS = MAP_S;
 	y = -1;
 	while (++y < main->map->mapY)

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 00:10:06 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 13:06:03 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	init_mlx(t_main *main)
 			screen_height, "cub3D");
 	if (!main->data->win_ptr)
 		return (printf(ERR_WINDOW), 1);
+	print_map(main->map->map);
 	render(main->data->mlx_ptr, main->data->win_ptr, main);
 	mlx_key_hook(main->data->win_ptr, handle_keys, main->data);
 	mlx_loop(main->data->mlx_ptr);

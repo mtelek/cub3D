@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 00:20:44 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/19 20:04:59 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 12:46:33 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,8 @@
 # define ERR_DISPLAY "Failed to open X display\n"
 # define ERR_INIT_MLX "Error initializing MLX\n"
 # define ERR_WINDOW "Error creating window\n"
+
+//MAP
+# define ERR_INV_MAP "Error: invalid map\n"
 
 #endif

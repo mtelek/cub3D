@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:38:01 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/19 23:57:22 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 13:57:11 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	main(int argc, char **argv)
 		return (free(main.textures), 1);
 	main.content_base = main.content;
 	if (split_content(&main))
-		return (1);
+		return (free_after_split(&main), 1);
 	init_mlx(&main);
-	// print_textures(main.textures);
-	// print_map(main.map);
+	//print_textures(main.textures);
+	//print_map(main.map->map);
 	free_function(&main);
 	return (0);
 }

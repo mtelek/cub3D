@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/19 23:57:51 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/20 14:01:39 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@
 # define MAX_LINES 4096
 # define MAP_S 64
 
-typedef struct  s_map
+typedef struct s_map
 {
 	char		**map;
-    int			mapS;
+	int			mapS;
 	int			mapY;
 	int			*mapX;
-    
-}               t_map;
 
-typedef struct  s_data
+}				t_map;
+
+typedef struct s_data
 {
-    void    *mlx_ptr;
-    void    *win_ptr;
-}               t_data;
+	void	*mlx_ptr;
+	void	*win_ptr;
+}				t_data;
 
 typedef struct s_textures
 {
