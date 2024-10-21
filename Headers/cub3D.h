@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 14:01:39 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/22 00:31:52 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	int		keys[4];
+	float	player_angle;
+	float	pdx;
+	float	pdy;
 }				t_data;
 
 typedef struct s_textures
@@ -77,6 +81,7 @@ void	draw_map(t_main *main);
 
 //MLX
 int		init_mlx(t_main *main);
+void	render(void *mlx_ptr, void *win_ptr, t_main *main);
 
 //FREE
 void	free_function(t_main *main);
