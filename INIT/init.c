@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 17:03:29 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/22 20:09:24 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_map(t_main *main)
 		map_index++;
 		i++;
 	}
-	main->map->map[map_index] = '\0';
+	main->map->map[map_index] = NULL;
 	spaces_to_zeros(main);
 	return (0);
 }
