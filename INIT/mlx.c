@@ -3,17 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/22 20:37:39 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/23 00:52:13 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
 
-float px = 1000;
-float py = 500;
+float px = 100;
+float py = 100;
+
+int is_wall(t_main *main, float new_px, float new_py, float dir_x, float dir_y)
+{
+    // Calculate the next position the player is looking at based on direction (POV)
+    float look_ahead_distance = 1;  // A small step forward
+    float look_ahead_px = new_px + dir_x * look_ahead_distance;
+    float look_ahead_py = new_py + dir_y * look_ahead_distance;
+
+    // Convert the look-ahead position to map grid coordinates
+    int map_x = (int)(look_ahead_px / main->map->mapS);
+    int map_y = (int)(look_ahead_py / main->map->mapS);
+
+    // Check if the look-ahead position is within map bounds and is a wall
+    if (map_x >= 0 && map_x < main->map->mapX[map_y] &&
+        map_y >= 0 && map_y < main->map->mapY &&
+        main->map->map[map_y][map_x] == '1')
+    {
+        return (1);  // There's a wall in the direction the player is looking
+    }
+    return (0);  // No wall in the direction the player is looking
+}
 
 void draw_line(t_main *main, int x0, int y0, int x1, int y1)
 {
@@ -70,7 +91,6 @@ void update_direction(t_main *main, float angle)
     main->data->player_angle += angle;
     main->data->pdx = cos(main->data->player_angle);
     main->data->pdy = sin(main->data->player_angle); 
-    mlx_clear_window(main->data->mlx_ptr, main->data->win_ptr);
     render(main->data->mlx_ptr, main->data->win_ptr, main);
 }
 
@@ -111,37 +131,41 @@ int handle_key_release(int keycode, t_main *main)
 
 int update_movement(t_main *main)
 {
+    float new_px = px;
+    float new_py = py;
+
     if (main->data->keys[0])
     {
-        px += main->data->pdx * 5;
-        py += main->data->pdy * 5;
+        new_px += main->data->pdx * 5;
+        new_py += main->data->pdy * 5;
     }
     if (main->data->keys[1])
     {
-        px += main->data->pdy * 5;
-        py -= main->data->pdx * 5;
+        new_px += main->data->pdy * 5;
+        new_py -= main->data->pdx * 5;
     }
     if (main->data->keys[2])
     {
-        px -= main->data->pdx * 5;
-        py -= main->data->pdy * 5;
+        new_px -= main->data->pdx * 5;
+        new_py -= main->data->pdy * 5;
     }
     if (main->data->keys[3])
     {
-        px -= main->data->pdy * 5;
-        py += main->data->pdx * 5;
+        new_px -= main->data->pdy * 5;
+        new_py += main->data->pdx * 5;
     }
-    if (main->data->keys[0] || main->data->keys[1] || main->data->keys[2] || main->data->keys[3])
+
+    if (!is_wall(main, new_px, new_py, main->data->pdx, main->data->pdy))
     {
-        mlx_clear_window(main->data->mlx_ptr, main->data->win_ptr);
-        render(main->data->mlx_ptr, main->data->win_ptr, main);
+        px = new_px;
+        py = new_py;
     }
+    render(main->data->mlx_ptr, main->data->win_ptr, main);
     return (0);
 }
 
 void render(void *mlx_ptr, void *win_ptr, t_main *main)
 {
-    mlx_clear_window(mlx_ptr, win_ptr);
     draw_map(main);
     draw_player(mlx_ptr, win_ptr, main);
 }

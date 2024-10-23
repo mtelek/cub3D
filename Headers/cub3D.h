@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/22 20:31:51 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/23 00:14:52 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
-# define MAP_S 128
+# define MAP_S 64
 # define PLAYER_SIZE 5
-# define PLAYER_COLOR 0xFFFF00 
+# define PLAYER_COLOR 0xFFFF00
 
 typedef struct s_map
 {
