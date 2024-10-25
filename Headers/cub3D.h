@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/23 00:14:52 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/25 18:58:41 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
 
+typedef struct s_player_data
+{
+	float	px;
+	float	py;
+	float	player_angle;
+	float	pdx;
+	float	pdy;
+	
+}	t_player_data;
+
 typedef struct s_map
 {
 	char		**map;
@@ -41,9 +51,6 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	float	player_angle;
-	float	pdx;
-	float	pdy;
 	int		keys[4];
 }				t_data;
 
@@ -59,14 +66,15 @@ typedef struct s_textures
 
 typedef struct s_main
 {
-	char		**content;
-	char		**content_base;
-	int			s_width;
-    int			s_height;
-	t_textures	*textures;
-	t_data		*data;
-	t_map		*map;
-}				t_main;
+	char			**content;
+	char			**content_base;
+	int				s_width;
+    int				s_height;
+	t_textures		*textures;
+	t_data			*data;
+	t_map			*map;
+	t_player_data	*player_data;
+}					t_main;
 
 //INIT
 int		init_main(t_main *main);

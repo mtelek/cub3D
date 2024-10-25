@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/23 19:34:17 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/25 18:46:49 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,8 @@ int	init_main(t_main *main)
 	main->map = malloc(sizeof(t_map));
 	if (!main->map)
 		return (printf(ERR_MF_MAP_S), 1);
+	main->player_data = (t_player_data *)malloc(sizeof(t_player_data));
+	if (!main->player_data)
+		return (1); // error message missing
 	return (0);
 }
