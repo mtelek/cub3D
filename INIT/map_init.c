@@ -3,23 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/25 19:18:13 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/26 18:45:48 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
 
-void	count_column(t_main *main, int row)
+void count_column(t_main *main, int row)
 {
-	int	i;
+    int i;
+    static int player_position_set;
 
-	i = 0;
-	while (main->map->map[row][i])
-		i++;
-	main->map->mapX[row] = i;
+    i = 0;
+    while (main->map->map[row][i])
+    {
+        if (!player_position_set && main->map->map[row][i] != '1' && 
+            main->map->map[row][i] != '0' && main->map->map[row][i] != ' ' && row >= 1 && i >= 1)
+        {
+            main->player_data->py = (row * main->map->mapS) + (0.5 * main->map->mapS);
+            main->player_data->px = (i * main->map->mapS) + (0.5 * main->map->mapS);
+			main->player_data->direction = main->map->map[row][i];
+            player_position_set = 1;
+        }
+        i++;
+    }
+    main->map->mapX[row] = i;
 }
 
 void	count_row(t_main *main)
@@ -64,10 +75,10 @@ void	draw_map(t_main *main)
 	int	xo;
 	int	yo;
 
+	main->map->mapS = MAP_S;
 	count_row(main);
 	if (map_check(main) == 1)
 		map_check_failed(main);
-	main->map->mapS = MAP_S;
 	y = -1;
 	while (++y < main->map->mapY)
 	{

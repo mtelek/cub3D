@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/25 18:58:41 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/26 20:05:37 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
-# define MAP_S 64
+# define MAP_S 64.0f
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
 
@@ -36,13 +36,14 @@ typedef struct s_player_data
 	float	player_angle;
 	float	pdx;
 	float	pdy;
+	char	direction;
 	
 }	t_player_data;
 
 typedef struct s_map
 {
 	char		**map;
-	int			mapS;
+	float		mapS;
 	int			mapY;
 	int			*mapX;
 }				t_map;
@@ -93,7 +94,7 @@ void	draw_map(t_main *main);
 
 //MLX
 int		init_mlx(t_main *main);
-void	render(void *mlx_ptr, void *win_ptr, t_main *main);
+void	render(void *mlx_ptr, void *win_ptr, t_main *main, int count);
 
 //DISPLAY
 void	get_display_resolution(t_main *main);

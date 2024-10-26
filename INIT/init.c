@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/25 18:46:49 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/26 18:38:43 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@ void	spaces_to_zeros(t_main *main)
 	while (main->map->map[++i])
 	{
 		j = -1;
-		convert_spaces = 0; // Reset the flag for each row
+		convert_spaces = 0;
 		while (main->map->map[i][++j])
 		{
-			// Skip spaces until a '1' or '0' is found
 			if (!convert_spaces && (main->map->map[i][j] == '1' || main->map->map[i][j] == '0'))
-				convert_spaces = 1; // Start converting spaces after encountering '1' or '0'
-			
-			// If the flag is set and we encounter a space, convert it to '0'
+				convert_spaces = 1;
 			if (convert_spaces && main->map->map[i][j] == ' ')
 				main->map->map[i][j] = '0';
 		}
@@ -43,7 +40,7 @@ int	init_map(t_main *main)
 
 	i = 0;
 	while (main->content[i] && (main->content[i][0] != '0'
-		&& main->content[i][0] != '1' && main->content[i][0] != ' ')) //added space here
+		&& main->content[i][0] != '1' && main->content[i][0] != ' '))
 		i++;
 	main->map->map = malloc(sizeof(char *) * (MAX_LINES - i));
 	if (!main->map->map)

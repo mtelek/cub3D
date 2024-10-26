@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/25 19:21:10 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/26 20:05:58 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	draw_line(t_main *main, int x0, int y0, int x1, int y1)
 		mlx_pixel_put(main->data->mlx_ptr, main->data->win_ptr, x0, y0,
 			PLAYER_COLOR);
 		if (x0 == x1 && y0 == y1)
-			break ;
+			break ; 
 		e2 = err * 2;
 		if (e2 > -dy)
 		{
@@ -113,9 +113,9 @@ int	handle_key_press(int keycode, t_main *main)
 	if (keycode == 'd')
 		main->data->keys[3] = 1;
 	if (keycode == 65361)
-		update_direction(main, -0.3);
+		update_direction(main, -0.2);
 	if (keycode == 65363)
-		update_direction(main, +0.3);
+		update_direction(main, +0.2);
 	return (0);
 }
 
@@ -134,8 +134,9 @@ int	handle_key_release(int keycode, t_main *main)
 
 int	update_movement(t_main *main)
 {
-	float	new_px;
-	float	new_py;
+	float		new_px;
+	float		new_py;
+	static int	count;
 
 	new_px = main->player_data->px;
 	new_py = main->player_data->py;
@@ -164,13 +165,35 @@ int	update_movement(t_main *main)
 		main->player_data->px = new_px;
 		main->player_data->py = new_py;
 	}
-	render(main->data->mlx_ptr, main->data->win_ptr, main);
+	render(main->data->mlx_ptr, main->data->win_ptr, main, count);
+	count++;
 	return (0);
 }
 
-void	render(void *mlx_ptr, void *win_ptr, t_main *main)
+void set_player_angle(t_main *main)
+{
+    // Check and set initial angle based on the player's direction
+    if (main->player_data->direction == 'N')
+        main->player_data->player_angle = 3 * M_PI / 2;
+    else if (main->player_data->direction == 'S')
+        main->player_data->player_angle = M_PI / 2;
+    else if (main->player_data->direction == 'E')
+        main->player_data->player_angle = 0;
+    else if (main->player_data->direction == 'W')
+        main->player_data->player_angle = M_PI;
+    else
+        main->player_data->player_angle = 0; // Default if unknown
+
+    // Set the direction vector based on the calculated angle
+    main->player_data->pdx = cos(main->player_data->player_angle);
+    main->player_data->pdy = sin(main->player_data->player_angle);
+}
+
+void	render(void *mlx_ptr, void *win_ptr, t_main *main, int count)
 {
 	draw_map(main);
+	if (count == 0)
+		set_player_angle(main);
 	draw_player(mlx_ptr, win_ptr, main);
 }
 
@@ -182,16 +205,10 @@ void	init_keys(t_main *main)
 	main->data->keys[3] = 0;
 }
 
-void get_player_pos(t_main *main)
-{
-    (void)main;
-    //player pos ition needed
-}
 
 int	init_mlx(t_main *main)
 {
 	get_display_resolution(main);
-    //get_player_pos(main);
 	main->data->mlx_ptr = mlx_init();
 	if (!main->data->mlx_ptr)
 		return (printf(ERR_INIT_MLX), 1);

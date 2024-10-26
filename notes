@@ -1,1 +1,5 @@
 //with wrong texture calling there are memory leaks
+
+//FIXED:
+//proper player init
+//direction for player can be set correctly
