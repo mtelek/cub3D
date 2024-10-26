@@ -1,5 +1,7 @@
 //with wrong texture calling there are memory leaks
+//memory leaks in general
 
 //FIXED:
 //proper player init
 //direction for player can be set correctly
+//fixed is wall function, diagonal move is correct now, not going through walls

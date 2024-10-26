@@ -6,31 +6,47 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/26 20:05:58 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/27 00:59:21 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
 
-int	is_wall(t_main *main, float new_px, float new_py, float dir_x, float dir_y)
-		// can go through
+int	is_wall(t_main *main, float new_px, float new_py)
 {
-	// Calculate the next position the player is looking at based on direction (POV)
-	float look_ahead_distance = 1; // A small step forward
-	float look_ahead_px = new_px + dir_x * look_ahead_distance;
-	float look_ahead_py = new_py + dir_y * look_ahead_distance;
+	int	curr_x;
+	int	curr_y;
+	int	new_x;
+	int	new_y;
 
-	// Convert the look-ahead position to map grid coordinates
-	int map_x = (int)(look_ahead_px / main->map->mapS);
-	int map_y = (int)(look_ahead_py / main->map->mapS);
-
-	// Check if the look-ahead position is within map bounds and is a wall
-	if (map_x >= 0 && map_x < main->map->mapX[map_y] && map_y >= 0
-		&& map_y < main->map->mapY && main->map->map[map_y][map_x] == '1')
+	curr_x = (int)(main->player_data->px / main->map->mapS);
+	curr_y = (int)(main->player_data->py / main->map->mapS);
+	new_x = (int)(new_px / main->map->mapS);
+	new_y = (int)(new_py / main->map->mapS);
+	if (new_x < 0 || new_x >= main->map->mapX[new_y] || new_y < 0
+		|| new_y >= main->map->mapY)
+		return (1);
+	if (main->map->map[new_y][new_x] == '1')
+		return (1);
+	if (curr_x != new_x && curr_y != new_y)
 	{
-		return (1); // There's a wall in the direction the player is looking
+		if (main->map->map[curr_y][new_x] == '1'
+			|| main->map->map[new_y][curr_x] == '1')
+			return (1);
 	}
-	return (0); // No wall in the direction the player is looking
+	if (curr_x != new_x && curr_y == new_y)
+	{
+		if ((curr_x < new_x && main->map->map[curr_y][curr_x + 1] == '1')
+			|| (curr_x > new_x && main->map->map[curr_y][curr_x - 1] == '1'))
+			return (1);
+	}
+	if (curr_y != new_y && curr_x == new_x)
+	{
+		if ((curr_y < new_y && main->map->map[curr_y + 1][curr_x] == '1')
+			|| (curr_y > new_y && main->map->map[curr_y - 1][curr_x] == '1'))
+			return (1);
+	}
+	return (0);
 }
 
 void	draw_line(t_main *main, int x0, int y0, int x1, int y1)
@@ -44,15 +60,21 @@ void	draw_line(t_main *main, int x0, int y0, int x1, int y1)
 
 	dx = abs(x1 - x0);
 	dy = abs(y1 - y0);
-	sx = (x0 < x1) ? 1 : -1;
-	sy = (y0 < y1) ? 1 : -1;
 	err = dx - dy;
+	if (x0 < x1)
+		sx = 1;
+	else
+		sx = -1;
+	if (y0 < y1)
+		sy = 1;
+	else
+		sy = -1;
 	while (1)
 	{
 		mlx_pixel_put(main->data->mlx_ptr, main->data->win_ptr, x0, y0,
 			PLAYER_COLOR);
 		if (x0 == x1 && y0 == y1)
-			break ; 
+			break ;
 		e2 = err * 2;
 		if (e2 > -dy)
 		{
@@ -80,14 +102,16 @@ void	draw_player(void *mlx_ptr, void *win_ptr, t_main *main)
 		x = -PLAYER_SIZE;
 		while (x <= PLAYER_SIZE)
 		{
-			mlx_pixel_put(mlx_ptr, win_ptr, main->player_data->px + x, main->player_data->py + y, PLAYER_COLOR);
+			mlx_pixel_put(mlx_ptr, win_ptr, main->player_data->px + x,
+				main->player_data->py + y, PLAYER_COLOR);
 			x++;
 		}
 		y++;
 	}
 	line_x = main->player_data->px + main->player_data->pdx * 20;
 	line_y = main->player_data->py + main->player_data->pdy * 20;
-	draw_line(main, main->player_data->px, main->player_data->py, line_x, line_y);
+	draw_line(main, main->player_data->px, main->player_data->py, line_x,
+		line_y);
 }
 
 void	update_direction(t_main *main, float angle)
@@ -160,7 +184,7 @@ int	update_movement(t_main *main)
 		new_px -= main->player_data->pdy * 5;
 		new_py += main->player_data->pdx * 5;
 	}
-	if (!is_wall(main, new_px, new_py, main->player_data->pdx, main->player_data->pdy))
+	if (!is_wall(main, new_px, new_py))
 	{
 		main->player_data->px = new_px;
 		main->player_data->py = new_py;
@@ -170,23 +194,18 @@ int	update_movement(t_main *main)
 	return (0);
 }
 
-void set_player_angle(t_main *main)
+void	set_player_angle(t_main *main)
 {
-    // Check and set initial angle based on the player's direction
-    if (main->player_data->direction == 'N')
-        main->player_data->player_angle = 3 * M_PI / 2;
-    else if (main->player_data->direction == 'S')
-        main->player_data->player_angle = M_PI / 2;
-    else if (main->player_data->direction == 'E')
-        main->player_data->player_angle = 0;
-    else if (main->player_data->direction == 'W')
-        main->player_data->player_angle = M_PI;
-    else
-        main->player_data->player_angle = 0; // Default if unknown
-
-    // Set the direction vector based on the calculated angle
-    main->player_data->pdx = cos(main->player_data->player_angle);
-    main->player_data->pdy = sin(main->player_data->player_angle);
+	if (main->player_data->direction == 'N')
+		main->player_data->player_angle = 3 * M_PI / 2;
+	else if (main->player_data->direction == 'S')
+		main->player_data->player_angle = M_PI / 2;
+	else if (main->player_data->direction == 'E')
+		main->player_data->player_angle = 0;
+	else if (main->player_data->direction == 'W')
+		main->player_data->player_angle = M_PI;
+	main->player_data->pdx = cos(main->player_data->player_angle);
+	main->player_data->pdy = sin(main->player_data->player_angle);
 }
 
 void	render(void *mlx_ptr, void *win_ptr, t_main *main, int count)
@@ -204,7 +223,6 @@ void	init_keys(t_main *main)
 	main->data->keys[2] = 0;
 	main->data->keys[3] = 0;
 }
-
 
 int	init_mlx(t_main *main)
 {
