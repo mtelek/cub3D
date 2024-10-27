@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/26 20:05:37 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/27 21:27:38 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define MAP_S 64.0f
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
+# define POV 60
 
 typedef struct s_player_data
 {
@@ -71,6 +72,7 @@ typedef struct s_main
 	char			**content_base;
 	int				s_width;
     int				s_height;
+	int				flag_changed;
 	t_textures		*textures;
 	t_data			*data;
 	t_map			*map;
@@ -88,6 +90,7 @@ int		split_content(t_main *main);
 
 //MAP_CHECK
 int		map_check(t_main *main);
+int		is_wall(t_main *main, float new_px, float new_py);
 
 //MAP
 void	draw_map(t_main *main);
@@ -95,6 +98,16 @@ void	draw_map(t_main *main);
 //MLX
 int		init_mlx(t_main *main);
 void	render(void *mlx_ptr, void *win_ptr, t_main *main, int count);
+
+//MOVEMENT
+int		handle_key_press(int keycode, t_main *main);
+int		handle_key_release(int keycode, t_main *main);
+int		update_movement(t_main *main);
+void	set_player_angle(t_main *main);
+
+//RAYS
+void 	draw_rays_3d(t_main *main);
+void	draw_line(t_main *main, int x0, int y0, int x1, int y1);
 
 //DISPLAY
 void	get_display_resolution(t_main *main);

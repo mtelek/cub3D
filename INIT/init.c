@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/26 18:38:43 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/27 20:29:18 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	init_main(t_main *main)
 {
 	main->content = NULL;
 	main->content_base = NULL;
+	main->flag_changed = 0;
 	main->textures = malloc(sizeof(t_textures));
 	if (!main->textures)
 		return (printf(ERR_MF_TEXTURES), 1);

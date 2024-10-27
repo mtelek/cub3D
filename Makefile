@@ -8,6 +8,7 @@ SRCS = main.c INIT/init.c INIT/init2.c free.c \
 		Libft_utils/libft_utils1.c \
 		helper_functions.c \
 		INIT/map_check.c INIT/mlx.c INIT/map_init.c INIT/display.c \
+		INIT/movement.c INIT/render.c INIT/rays.c \
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 

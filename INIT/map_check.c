@@ -6,11 +6,48 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:52:00 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/23 19:38:46 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/27 16:56:12 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
+
+int	is_wall(t_main *main, float new_px, float new_py)
+{
+	int	curr_x;
+	int	curr_y;
+	int	new_x;
+	int	new_y;
+
+	curr_x = (int)(main->player_data->px / main->map->mapS);
+	curr_y = (int)(main->player_data->py / main->map->mapS);
+	new_x = (int)(new_px / main->map->mapS);
+	new_y = (int)(new_py / main->map->mapS);
+	if (new_x < 0 || new_x >= main->map->mapX[new_y] || new_y < 0
+		|| new_y >= main->map->mapY)
+		return (1);
+	if (main->map->map[new_y][new_x] == '1')
+		return (1);
+	if (curr_x != new_x && curr_y != new_y)
+	{
+		if (main->map->map[curr_y][new_x] == '1'
+			|| main->map->map[new_y][curr_x] == '1')
+			return (1);
+	}
+	if (curr_x != new_x && curr_y == new_y)
+	{
+		if ((curr_x < new_x && main->map->map[curr_y][curr_x + 1] == '1')
+			|| (curr_x > new_x && main->map->map[curr_y][curr_x - 1] == '1'))
+			return (1);
+	}
+	if (curr_y != new_y && curr_x == new_x)
+	{
+		if ((curr_y < new_y && main->map->map[curr_y + 1][curr_x] == '1')
+			|| (curr_y > new_y && main->map->map[curr_y - 1][curr_x] == '1'))
+			return (1);
+	}
+	return (0);
+}
 
 int	check_lines(char *line, int end, char **map, int i)
 {
