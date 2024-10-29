@@ -6,24 +6,26 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/27 20:44:45 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 17:28:31 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
 
-void	init_keys(t_main *main)
+void	init_data(t_main *main)
 {
 	main->data->keys[0] = 0;
 	main->data->keys[1] = 0;
 	main->data->keys[2] = 0;
 	main->data->keys[3] = 0;
+	main->data->angle_step = FOV / POV;
+	main->data->proj_plane_dist = main->s_width / (2 * tan(FOV / 2));
 }
 
 int	init_mlx(t_main *main)
 {
 	get_display_resolution(main);
-	init_keys(main);
+	init_data(main);
 	main->data->mlx_ptr = mlx_init();
 	if (!main->data->mlx_ptr)
 		return (printf(ERR_INIT_MLX), 1);

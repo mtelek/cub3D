@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 15:11:23 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 17:00:43 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,22 @@ void	map_check_failed(t_main *main)
 	exit(1);
 }
 
-void	draw_map(t_main *main)
+void	calc_map(t_main *main)
 {
-	int	x;
-	int	y;
-	int	xo;
-	int	yo;
-
 	main->map->mapS = MAP_S;
 	count_row(main);
 	if (map_check(main) == 1)
 		map_check_failed(main);
-	y = -1;
+}
+
+void    draw_map(t_main *main)
+{
+    int	x;
+	int	y;
+	int	xo;
+	int	yo;
+    
+    y = -1;
 	while (++y < main->map->mapY)
 	{
 		x = -1;

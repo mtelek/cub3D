@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 15:30:01 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 18:30:13 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void draw_line(t_main *main, int x0, int y0, int x1, int y1)
 void draw_player(t_main *main)
 {
     int x, y;
+    int line_x;
+    int line_y;
 
     for (y = -PLAYER_SIZE; y <= PLAYER_SIZE; y++)
     {
@@ -59,16 +61,17 @@ void draw_player(t_main *main)
             }
         }
     }
+    line_x = main->player_data->px + main->player_data->pdx * 20;
+	line_y = main->player_data->py + main->player_data->pdy * 20;
+	draw_line(main, main->player_data->px, main->player_data->py, line_x,
+		line_y);
 }
 
 void clear_screen(t_main *main)
 {
-    int ceiling_color = (225 << 16) | (30 << 8) | 0; // RGB(225, 30, 0)
-    int floor_color = (220 << 16) | (100 << 8) | 0;   // RGB(220, 100, 0)
-
     for (int y = 0; y < main->s_height; y++)
     {
-        int color = (y < main->s_height / 2) ? ceiling_color : floor_color;
+        int color = (y < main->s_height / 2) ? CEILING_COLOR : FLOOR_COLOR;
         for (int x = 0; x < main->s_width; x++)
         {
             char *pixel = main->data->img_data + (y * main->data->size_line + x * (main->data->bpp / 8));
@@ -106,11 +109,12 @@ void init_image(t_data *data, int width, int height)
 void render(t_main *main, int count)
 {
     init_image(main->data, main->s_width, main->s_height);
-    clear_screen(main);
-    draw_map(main);
+    calc_map(main);
+    //clear_screen(main); //should optimize this shit
 	if (count == 0)
 		set_player_angle(main);
     draw_rays(main);
+    draw_map(main);
     draw_player(main);
 	mlx_put_image_to_window(main->data->mlx_ptr, main->data->win_ptr, main->data->img, 0, 0);
     mlx_destroy_image(main->data->mlx_ptr, main->data->img);

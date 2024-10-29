@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 15:34:33 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 18:30:07 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
 # define POV 1000
+# define FOV (M_PI / 3.0f)
+# define CEILING_COLOR 0x0000FF   	// BlUE
+# define FLOOR_COLOR 0x8B4513     	// BROWN
+# define WALL_COLOR 0x404040   		// Dark gray (RGB(64, 64, 64))
 
 typedef struct s_player_data
 {
@@ -55,6 +59,8 @@ typedef struct s_data
     void    *win_ptr;
     float   d_ray[(POV)+1];
     int     keys[4];
+	float	angle_step;
+	float	proj_plane_dist;
     void    *img;
     char    *img_data;
     int     bpp;
@@ -100,6 +106,7 @@ int		map_check(t_main *main);
 int		is_wall(t_main *main, float new_px, float new_py);
 
 //MAP
+void	calc_map(t_main *main);
 void	draw_map(t_main *main);
 
 //MLX

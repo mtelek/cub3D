@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 15:29:50 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 18:30:44 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ float normalize_angle(float angle)
         angle += 2 * M_PI;
     while (angle >= 2 * M_PI)
         angle -= 2 * M_PI;
-    return angle;
+    return (angle);
 }
 
 void cast_single_ray(t_main *main, float ra, int i)
@@ -136,23 +136,21 @@ void cast_single_ray(t_main *main, float ra, int i)
 
 void draw_rays(t_main *main)
 {
-    int num_rays = POV;  // Number of rays, one per degree
-    float fov = M_PI / 2; // 60 degrees in radians
-    float angle_step = fov / num_rays;
-    float start_angle = normalize_angle(main->player_data->player_angle - fov / 2);
-    float distance_to_projection_plane = main->s_width / (2 * tan(fov / 2)); //can calculate before just once, num_rays as well
+    float start_angle = normalize_angle(main->player_data->player_angle - FOV / 2);
 
-    for (int x = 0; x < num_rays; x++)
+    for (int x = 0; x < POV; x++)
     {
-        float ray_angle = normalize_angle(start_angle + x * angle_step);
+        float ray_angle = normalize_angle(start_angle + x * main->data->angle_step);
         cast_single_ray(main, ray_angle, x);
         float c_dis = main->data->d_ray[x] * cos(main->player_data->player_angle - ray_angle);
-        float wall_height = (main->map->mapS * distance_to_projection_plane) / c_dis;
+        float wall_height = (main->map->mapS * main->data->proj_plane_dist) / c_dis;
         int wall_top = (main->s_height / 2) - (wall_height / 2);
         int wall_bottom = wall_top + wall_height;
-        int screen_x = (x * main->s_width) / num_rays;
-        int color_intensity = 255 - (int)(c_dis * 255 / 1000); // Adjust based on max expected distance
-        int color = (color_intensity << 8);
+        int screen_x = (x * main->s_width) / POV;
+        int base_color = 64;
+        int color_intensity = base_color - (int)(c_dis * base_color / 1000);
+        if (color_intensity < 0) color_intensity = 0;
+        int color = (color_intensity << 16) | (color_intensity << 8) | color_intensity;
         for (int y = wall_top; y < wall_bottom; y++) {
             put_pixel_to_image(main, screen_x, y, color);
         }
