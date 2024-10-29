@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/27 21:36:00 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:29:50 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ float normalize_angle(float angle)
     return angle;
 }
 
-void cast_single_ray(t_main *main, float ra)
+void cast_single_ray(t_main *main, float ra, int i)
 {
     int dof;
     float rx, ry, xo, yo;
@@ -37,9 +37,7 @@ void cast_single_ray(t_main *main, float ra)
     float horizontal_ray = -1;
     float hit_rx = 0, hit_ry = 0;
 
-    // Normalize angle for consistency
     ra = normalize_angle(ra);
-
     // Horizontal raycasting
     dof = 0;
     if (ra > M_PI) // Looking up
@@ -60,10 +58,9 @@ void cast_single_ray(t_main *main, float ra)
     {
         rx = main->player_data->px;
         ry = main->player_data->py;
-        dof = 8;
+        dof = 10;
     }
-
-    while (dof < 8)
+    while (dof < 10)
     {
         mx = (int)(rx / main->map->mapS);
         my = (int)(ry / main->map->mapS);
@@ -81,7 +78,6 @@ void cast_single_ray(t_main *main, float ra)
     }
     float h_rx = rx;
     float h_ry = ry;
-
     // Vertical raycasting
     dof = 0;
     if (ra > M_PI_2 && ra < 3 * M_PI_2) // Looking left
@@ -104,7 +100,6 @@ void cast_single_ray(t_main *main, float ra)
         ry = main->player_data->py;
         dof = 8;
     }
-
     while (dof < 8)
     {
         mx = (int)(rx / main->map->mapS);
@@ -123,7 +118,6 @@ void cast_single_ray(t_main *main, float ra)
     }
     float v_rx = rx;
     float v_ry = ry;
-
     // Choose the shortest ray to draw
     if (horizontal_ray > 0 && (vertical_ray == -1 || horizontal_ray < vertical_ray))
     {
@@ -135,21 +129,32 @@ void cast_single_ray(t_main *main, float ra)
         hit_rx = v_rx;
         hit_ry = v_ry;
     }
-
-    // Draw only the shortest ray
+    main->data->d_ray[i] = calc_ray_l(main->player_data->px, main->player_data->py, hit_rx, hit_ry);
+    main->data->d_ray[i+1] = 0.0;
     draw_line(main, (int)main->player_data->px, (int)main->player_data->py, (int)hit_rx, (int)hit_ry);
 }
 
-void draw_rays_3d(t_main *main)
+void draw_rays(t_main *main)
 {
     int num_rays = POV;  // Number of rays, one per degree
-    float fov = M_PI / 3; // 60 degrees in radians
+    float fov = M_PI / 2; // 60 degrees in radians
     float angle_step = fov / num_rays;
     float start_angle = normalize_angle(main->player_data->player_angle - fov / 2);
+    float distance_to_projection_plane = main->s_width / (2 * tan(fov / 2)); //can calculate before just once, num_rays as well
 
-    for (int i = 0; i < num_rays; i++)
+    for (int x = 0; x < num_rays; x++)
     {
-        float ray_angle = normalize_angle(start_angle + i * angle_step);
-        cast_single_ray(main, ray_angle);
+        float ray_angle = normalize_angle(start_angle + x * angle_step);
+        cast_single_ray(main, ray_angle, x);
+        float c_dis = main->data->d_ray[x] * cos(main->player_data->player_angle - ray_angle);
+        float wall_height = (main->map->mapS * distance_to_projection_plane) / c_dis;
+        int wall_top = (main->s_height / 2) - (wall_height / 2);
+        int wall_bottom = wall_top + wall_height;
+        int screen_x = (x * main->s_width) / num_rays;
+        int color_intensity = 255 - (int)(c_dis * 255 / 1000); // Adjust based on max expected distance
+        int color = (color_intensity << 8);
+        for (int y = wall_top; y < wall_bottom; y++) {
+            put_pixel_to_image(main, screen_x, y, color);
+        }
     }
 }

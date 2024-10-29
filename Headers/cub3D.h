@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/27 21:27:38 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:34:33 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 # include <math.h>
 # include <X11/Xlib.h>
 # include <mlx.h>
-//# include "/mnt/c/Users/marci/minilibx-linux/mlx.h"
+//# include "/mnt/c/Users/marci/minilibx-linux/mlx.h y"
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
-# define MAP_S 64.0f
+# define MAP_S 32.0f
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
-# define POV 60
+# define POV 1000
 
 typedef struct s_player_data
 {
@@ -51,10 +51,17 @@ typedef struct s_map
 
 typedef struct s_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	int		keys[4];
-}				t_data;
+    void    *mlx_ptr;
+    void    *win_ptr;
+    float   d_ray[(POV)+1];
+    int     keys[4];
+    void    *img;
+    char    *img_data;
+    int     bpp;
+    int     size_line;
+    int     endian;
+}               t_data;
+
 
 typedef struct s_textures
 {
@@ -97,7 +104,8 @@ void	draw_map(t_main *main);
 
 //MLX
 int		init_mlx(t_main *main);
-void	render(void *mlx_ptr, void *win_ptr, t_main *main, int count);
+void	render(t_main *main, int count);
+void put_pixel_to_image(t_main *main, int x, int y, int color);
 
 //MOVEMENT
 int		handle_key_press(int keycode, t_main *main);
@@ -106,7 +114,7 @@ int		update_movement(t_main *main);
 void	set_player_angle(t_main *main);
 
 //RAYS
-void 	draw_rays_3d(t_main *main);
+void 	draw_rays(t_main *main);
 void	draw_line(t_main *main, int x0, int y0, int x1, int y1);
 
 //DISPLAY

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:52:13 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/27 20:34:54 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 14:45:59 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,12 @@ int	update_movement(t_main *main)
 	}
 	if (!rerender)
 	{
-		render(main->data->mlx_ptr, main->data->win_ptr, main, count);
+		render(main, count);
 		rerender++;
 	}
 	if (main->flag_changed == 1)
 	{
-		render(main->data->mlx_ptr, main->data->win_ptr, main, count);
+		render(main, count);
 		count++;
 		main->flag_changed = 0;
 	}

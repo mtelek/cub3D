@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/26 18:45:48 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/10/29 15:11:23 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,17 @@ void	count_row(t_main *main)
 	main->map->mapY = i;
 }
 
-void	draw_rectangle(t_main *main, int x, int y, int color)
+void draw_rectangle(t_main *main, int x, int y, int color)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < main->map->mapS)
-	{
-		j = -1;
-		while (++j < main->map->mapS)
-			mlx_pixel_put(main->data->mlx_ptr, main->data->win_ptr, x + i, y
-				+ j, color);
-	}
+    for (int i = 0; i < main->map->mapS; i++)
+    {
+        for (int j = 0; j < main->map->mapS; j++)
+        {
+            int screen_x = x + i;
+            int screen_y = y + j;
+            put_pixel_to_image(main, screen_x, screen_y, color);
+        }
+    }
 }
 
 void	map_check_failed(t_main *main)
