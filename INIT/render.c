@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 18:30:13 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/04 18:49:19 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void draw_player(t_main *main)
         {
             int screen_x = main->player_data->px + x;
             int screen_y = main->player_data->py + y;
-
-            // Ensure we stay within bounds before drawing
             if (screen_x >= 0 && screen_x < main->s_width && screen_y >= 0 && screen_y < main->s_height)
             {
                 put_pixel_to_image(main, screen_x, screen_y, PLAYER_COLOR);
@@ -65,19 +63,6 @@ void draw_player(t_main *main)
 	line_y = main->player_data->py + main->player_data->pdy * 20;
 	draw_line(main, main->player_data->px, main->player_data->py, line_x,
 		line_y);
-}
-
-void clear_screen(t_main *main)
-{
-    for (int y = 0; y < main->s_height; y++)
-    {
-        int color = (y < main->s_height / 2) ? CEILING_COLOR : FLOOR_COLOR;
-        for (int x = 0; x < main->s_width; x++)
-        {
-            char *pixel = main->data->img_data + (y * main->data->size_line + x * (main->data->bpp / 8));
-            *(int*)pixel = color;
-        }
-    }
 }
 
 void put_pixel_to_image(t_main *main, int x, int y, int color)
@@ -110,7 +95,6 @@ void render(t_main *main, int count)
 {
     init_image(main->data, main->s_width, main->s_height);
     calc_map(main);
-    //clear_screen(main); //should optimize this shit
 	if (count == 0)
 		set_player_angle(main);
     draw_rays(main);

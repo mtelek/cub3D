@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 18:30:07 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/04 19:27:19 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,36 @@
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
-# define MAP_S 32.0f
+# define MAP_S 16.0f
 # define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
-# define POV 1000
-# define FOV (M_PI / 3.0f)
+# define POV 1920
+# define FOV (M_PI / 2.0f)
 # define CEILING_COLOR 0x0000FF   	// BlUE
 # define FLOOR_COLOR 0x8B4513     	// BROWN
 # define WALL_COLOR 0x404040   		// Dark gray (RGB(64, 64, 64))
+
+typedef struct s_ray
+{
+	int dof;
+	float atan;
+	float ntan;
+	float rx;
+	float ry;
+	float xo;
+	float yo;
+	int mx;
+	int my;
+	float vertical_ray;
+	float horizontal_ray;
+	float hit_rx;
+	float hit_ry;
+	float ra;
+	float h_rx;
+	float h_ry;
+	float v_rx;
+	float v_ry;	
+}	t_ray;
 
 typedef struct s_player_data
 {

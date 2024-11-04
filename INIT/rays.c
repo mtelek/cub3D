@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 18:30:44 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/04 19:24:43 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,112 +26,115 @@ float normalize_angle(float angle)
     return (angle);
 }
 
+void    init_ray_var(t_ray *ray, float ra)
+{
+    ray->dof = 0;
+    ray->atan = -1 / tan(ra);
+    ray->ntan = -tan(ra);
+    ray->vertical_ray = -1;
+    ray->horizontal_ray = -1;
+    ray->hit_rx = 0;
+    ray->hit_ry = 0;
+}
+
 void cast_single_ray(t_main *main, float ra, int i)
 {
-    int dof;
-    float rx, ry, xo, yo;
-    int mx, my;
-    float aTan = -1 / tan(ra);
-    float nTan = -tan(ra);
-    float vertical_ray = -1;
-    float horizontal_ray = -1;
-    float hit_rx = 0, hit_ry = 0;
+    t_ray ray;
 
-    ra = normalize_angle(ra);
+    init_ray_var(&ray, ra);
+    ray.ra = normalize_angle(ra);
     // Horizontal raycasting
-    dof = 0;
-    if (ra > M_PI) // Looking up
+    if (ray.ra > M_PI) // Looking up
     {
-        ry = ((int)(main->player_data->py) / (int)main->map->mapS) * main->map->mapS - 0.0001;
-        rx = (main->player_data->py - ry) * aTan + main->player_data->px;
-        yo = -main->map->mapS;
-        xo = -yo * aTan;
+        ray.ry = ((int)(main->player_data->py) / (int)main->map->mapS) * main->map->mapS - 0.0001;
+        ray.rx = (main->player_data->py - ray.ry) * ray.atan + main->player_data->px;
+        ray.yo = -main->map->mapS;
+        ray.xo = -ray.yo * ray.atan;
     }
-    else if (ra < M_PI) // Looking down
+    else if (ray.ra < M_PI) // Looking down
     {
-        ry = ((int)(main->player_data->py) / (int)main->map->mapS) * main->map->mapS + main->map->mapS;
-        rx = (main->player_data->py - ry) * aTan + main->player_data->px;
-        yo = main->map->mapS;
-        xo = -yo * aTan;
+        ray.ry = ((int)(main->player_data->py) / (int)main->map->mapS) * main->map->mapS + main->map->mapS;
+        ray.rx = (main->player_data->py - ray.ry) * ray.atan + main->player_data->px;
+        ray.yo = main->map->mapS;
+        ray.xo = -ray.yo * ray.atan;
     }
     else // Looking straight left or right
     {
-        rx = main->player_data->px;
-        ry = main->player_data->py;
-        dof = 10;
+        ray.rx = main->player_data->px;
+        ray.ry = main->player_data->py;
+        ray.dof = 10;
     }
-    while (dof < 10)
+    while (ray.dof < 10)
     {
-        mx = (int)(rx / main->map->mapS);
-        my = (int)(ry / main->map->mapS);
-        if (my < main->map->mapY && my >= 0 && mx >= 0 && mx < main->map->mapX[my] && main->map->map[my][mx] == '1') // Wall hit
+        ray.mx = (int)(ray.rx / main->map->mapS);
+        ray.my = (int)(ray.ry / main->map->mapS);
+        if (ray.my < main->map->mapY && ray.my >= 0 && ray.mx >= 0 && ray.mx < main->map->mapX[ray.my] && main->map->map[ray.my][ray.mx] == '1') // Wall hit
         {
-            horizontal_ray = calc_ray_l(main->player_data->px, main->player_data->py, rx, ry);
+            ray.horizontal_ray = calc_ray_l(main->player_data->px, main->player_data->py, ray.rx, ray.ry);
             break;
         }
         else
         {
-            rx += xo;
-            ry += yo;
-            dof++;
+            ray.rx += ray.xo;
+            ray.ry += ray.yo;
+            ray.dof++;
         }
     }
-    float h_rx = rx;
-    float h_ry = ry;
+    ray.h_rx = ray.rx;
+    ray.h_ry = ray.ry;
     // Vertical raycasting
-    dof = 0;
-    if (ra > M_PI_2 && ra < 3 * M_PI_2) // Looking left
+    ray.dof = 0;
+    if (ray.ra > M_PI_2 && ray.ra < 3 * M_PI_2) // Looking left
     {
-        rx = ((int)(main->player_data->px) / (int)main->map->mapS) * main->map->mapS - 0.0001;
-        ry = (main->player_data->px - rx) * nTan + main->player_data->py;
-        xo = -main->map->mapS;
-        yo = -xo * nTan;
+        ray.rx = ((int)(main->player_data->px) / (int)main->map->mapS) * main->map->mapS - 0.0001;
+        ray.ry = (main->player_data->px - ray.rx) * ray.ntan + main->player_data->py;
+        ray.xo = -main->map->mapS;
+        ray.yo = -ray.xo * ray.ntan;
     }
-    else if (ra < M_PI_2 || ra > 3 * M_PI_2) // Looking right
+    else if (ray.ra < M_PI_2 || ray.ra > 3 * M_PI_2) // Looking right
     {
-        rx = ((int)(main->player_data->px) / (int)main->map->mapS) * main->map->mapS + main->map->mapS;
-        ry = (main->player_data->px - rx) * nTan + main->player_data->py;
-        xo = main->map->mapS;
-        yo = -xo * nTan;
+        ray.rx = ((int)(main->player_data->px) / (int)main->map->mapS) * main->map->mapS + main->map->mapS;
+        ray.ry = (main->player_data->px - ray.rx) * ray.ntan + main->player_data->py;
+        ray.xo = main->map->mapS;
+        ray.yo = -ray.xo * ray.ntan;
     }
     else // Looking straight up or down
     {
-        rx = main->player_data->px;
-        ry = main->player_data->py;
-        dof = 8;
+        ray.rx = main->player_data->px;
+        ray.ry = main->player_data->py;
+        ray.dof = 8;
     }
-    while (dof < 8)
+    while (ray.dof < 8)
     {
-        mx = (int)(rx / main->map->mapS);
-        my = (int)(ry / main->map->mapS);
-        if (my < main->map->mapY && my >= 0 && mx >= 0 && mx < main->map->mapX[my] && main->map->map[my][mx] == '1') // Wall hit
+        ray.mx = (int)(ray.rx / main->map->mapS);
+        ray.my = (int)(ray.ry / main->map->mapS);
+        if (ray.my < main->map->mapY && ray.my >= 0 && ray.mx >= 0 && ray.mx < main->map->mapX[ray.my] && main->map->map[ray.my][ray.mx] == '1') // Wall hit
         {
-            vertical_ray = calc_ray_l(main->player_data->px, main->player_data->py, rx, ry);
+            ray.vertical_ray = calc_ray_l(main->player_data->px, main->player_data->py, ray.rx, ray.ry);
             break;
         }
         else
         {
-            rx += xo;
-            ry += yo;
-            dof++;
+            ray.rx += ray.xo;
+            ray.ry += ray.yo;
+            ray.dof++;
         }
     }
-    float v_rx = rx;
-    float v_ry = ry;
+    ray.v_rx = ray.rx;
+    ray.v_ry = ray.ry;
     // Choose the shortest ray to draw
-    if (horizontal_ray > 0 && (vertical_ray == -1 || horizontal_ray < vertical_ray))
+    if (ray.horizontal_ray > 0 && (ray.vertical_ray == -1 || ray.horizontal_ray < ray.vertical_ray))
     {
-        hit_rx = h_rx;
-        hit_ry = h_ry;
+        ray.hit_rx = ray.h_rx;
+        ray.hit_ry = ray.h_ry;
     }
-    else if (vertical_ray > 0)
+    else if (ray.vertical_ray > 0)
     {
-        hit_rx = v_rx;
-        hit_ry = v_ry;
+        ray.hit_rx = ray.v_rx;
+        ray.hit_ry = ray.v_ry;
     }
-    main->data->d_ray[i] = calc_ray_l(main->player_data->px, main->player_data->py, hit_rx, hit_ry);
-    main->data->d_ray[i+1] = 0.0;
-    draw_line(main, (int)main->player_data->px, (int)main->player_data->py, (int)hit_rx, (int)hit_ry);
+    main->data->d_ray[i] = calc_ray_l(main->player_data->px, main->player_data->py, ray.hit_rx, ray.hit_ry);
+    draw_line(main, (int)main->player_data->px, (int)main->player_data->py, (int)ray.hit_rx, (int)ray.hit_ry);
 }
 
 void draw_rays(t_main *main)
@@ -147,12 +150,13 @@ void draw_rays(t_main *main)
         int wall_top = (main->s_height / 2) - (wall_height / 2);
         int wall_bottom = wall_top + wall_height;
         int screen_x = (x * main->s_width) / POV;
-        int base_color = 64;
-        int color_intensity = base_color - (int)(c_dis * base_color / 1000);
-        if (color_intensity < 0) color_intensity = 0;
-        int color = (color_intensity << 16) | (color_intensity << 8) | color_intensity;
-        for (int y = wall_top; y < wall_bottom; y++) {
-            put_pixel_to_image(main, screen_x, y, color);
+        for (int y = 0; y < wall_top; y++) {
+            put_pixel_to_image(main, screen_x, y, CEILING_COLOR);
         }
+        for (int y = wall_top; y < wall_bottom; y++) {
+            put_pixel_to_image(main, screen_x, y, 0x808080);
+        }
+        for (int y = wall_bottom; y < main->s_height; y++)
+            put_pixel_to_image(main, screen_x, y, FLOOR_COLOR);
     }
 }
