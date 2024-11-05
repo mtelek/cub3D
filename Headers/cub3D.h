@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/04 19:27:19 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/05 16:12:57 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_ray
 	float h_rx;
 	float h_ry;
 	float v_rx;
-	float v_ry;	
+	float v_ry;
 }	t_ray;
 
 typedef struct s_player_data
