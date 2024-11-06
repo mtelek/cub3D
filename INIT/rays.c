@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/05 16:21:11 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:02:52 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void draw_rays(t_main *main)
 {
     float start_angle = normalize_angle(main->player_data->player_angle - FOV / 2);
     
-    for (int x = 0; x < POV; x++)
+    for (int x = 0; x < main->pov; x++)
     {
         float ray_angle = normalize_angle(start_angle + x * main->data->angle_step);
         cast_single_ray(main, ray_angle, x);
@@ -162,7 +162,7 @@ void draw_rays(t_main *main)
         float wall_height = (main->map->mapS * main->data->proj_plane_dist) / c_dis;
         int wall_top = (main->s_height / 2) - (wall_height / 2);
         int wall_bottom = wall_top + wall_height;
-        int screen_x = (x * main->s_width) / POV;
+        int screen_x = (x * main->s_width) / main->pov;
         for (int y = 0; y < wall_top; y++) {
             put_pixel_to_image(main, screen_x, y, CEILING_COLOR);
         }

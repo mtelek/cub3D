@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/05 16:28:34 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/06 20:11:08 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void draw_player(t_main *main)
     int line_x;
     int line_y;
 
-    for (y = -PLAYER_SIZE; y <= PLAYER_SIZE; y++)
+    for (y = -main->player_data->player_size; y <= main->player_data->player_size; y++)
     {
-        for (x = -PLAYER_SIZE; x <= PLAYER_SIZE; x++)
+        for (x = -main->player_data->player_size; x <= main->player_data->player_size; x++)
         {
             int screen_x = main->player_data->px + x;
             int screen_y = main->player_data->py + y;
@@ -74,7 +74,6 @@ void put_pixel_to_image(t_main *main, int x, int y, int color)
     }
 }
 
-
 void init_image(t_data *data, int width, int height)
 {
     data->img = mlx_new_image(data->mlx_ptr, width, height);
@@ -94,9 +93,11 @@ void init_image(t_data *data, int width, int height)
 void render(t_main *main, int count)
 {
     init_image(main->data, main->s_width, main->s_height);
-    calc_map(main);
 	if (count == 0)
-		set_player_angle(main);
+    {
+        calc_map(main);
+        set_player_angle(main);
+    }
     draw_rays(main);
     draw_map(main);
     draw_player(main);

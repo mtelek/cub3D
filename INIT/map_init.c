@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 17:00:43 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/06 20:11:36 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 void count_column(t_main *main, int row)
 {
     int i;
-    static int player_position_set;
 
     i = 0;
     while (main->map->map[row][i])
     {
-        if (!player_position_set && main->map->map[row][i] != '1' && 
+        if (main->map->map[row][i] != '1' && 
             main->map->map[row][i] != '0' && main->map->map[row][i] != ' ' && row >= 1 && i >= 1)
         {
-            main->player_data->py = (row * main->map->mapS) + (0.5 * main->map->mapS);
-            main->player_data->px = (i * main->map->mapS) + (0.5 * main->map->mapS);
+            main->player_data->py = row;
+            main->player_data->px = i;
 			main->player_data->direction = main->map->map[row][i];
-            player_position_set = 1;
         }
         i++;
     }
@@ -66,12 +64,64 @@ void	map_check_failed(t_main *main)
 	exit(1);
 }
 
+int	find_biggest_x(t_main *main)
+{
+	int max_x;
+	int i;
+	int row_length;
+
+	max_x = 0;
+	i = 0;
+	while (main->map->map[i])
+	{
+		row_length = 0;
+		while (main->map->map[i][row_length])
+		{
+			row_length++;
+		}
+		if (row_length > max_x)
+		{
+			max_x = row_length;
+		}
+		i++;
+	}
+	return (max_x);
+}
+
+void calc_mapS(t_main *main)
+{
+    int max_x;
+    int max_y;
+
+    max_x = find_biggest_x(main);
+    max_y = main->map->mapY;
+    if (max_x > max_y)
+        main->map->mapS = (float)main->s_width / 5.0f / (float)max_x;
+    else
+        main->map->mapS = (float)main->s_height / 5.0f / (float)max_y;
+    main->map->mapS = round(main->map->mapS);
+    main->player_data->player_size = round(main->map->mapS / 5.0f);
+}
+
+void	calc_player_pos(t_main *main)
+{
+	main->player_data->py = (main->player_data->py * main->map->mapS) + (0.5 * main->map->mapS);
+    main->player_data->px = (main->player_data->px * main->map->mapS) + (0.5 * main->map->mapS);
+}
+
 void	calc_map(t_main *main)
 {
-	main->map->mapS = MAP_S;
-	count_row(main);
-	if (map_check(main) == 1)
-		map_check_failed(main);
+	static int count;
+	
+	if (count == 0)
+	{
+		count_row(main);
+		calc_mapS(main);
+		calc_player_pos(main);
+		if (map_check(main) == 1)
+			map_check_failed(main);
+		count++;
+	}
 }
 
 void    draw_map(t_main *main)

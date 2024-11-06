@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/05 16:12:57 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/06 20:04:16 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
-# define MAP_S 16.0f
-# define PLAYER_SIZE 5
 # define PLAYER_COLOR 0xFFFF00
-# define POV 1920
 # define FOV (M_PI / 2.0f)
 # define CEILING_COLOR 0x0000FF   	// BlUE
 # define FLOOR_COLOR 0x8B4513     	// BROWN
@@ -58,6 +55,7 @@ typedef struct s_ray
 
 typedef struct s_player_data
 {
+	float	player_size;
 	float	px;
 	float	py;
 	float	player_angle;
@@ -79,7 +77,7 @@ typedef struct s_data
 {
     void    *mlx_ptr;
     void    *win_ptr;
-    float   d_ray[(POV)+1];
+    float   *d_ray;
     int     keys[4];
 	float	angle_step;
 	float	proj_plane_dist;
@@ -88,6 +86,7 @@ typedef struct s_data
     int     bpp;
     int     size_line;
     int     endian;
+	float	speed;
 }               t_data;
 
 
@@ -108,6 +107,8 @@ typedef struct s_main
 	int				s_width;
     int				s_height;
 	int				flag_changed;
+	int				pov;
+	float			player_size;
 	t_textures		*textures;
 	t_data			*data;
 	t_map			*map;
