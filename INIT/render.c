@@ -98,6 +98,7 @@ void render(t_main *main, int count)
         calc_map(main);
         set_player_angle(main);
     }
+	load_textures(main);
     draw_rays(main);
     draw_map(main);
     draw_player(main);

@@ -27,20 +27,20 @@ void	print_map(char **map)
 
 void	print_textures(t_textures *textures)
 {
-	if (textures->no)
-		printf("NO texture: %s\n", textures->no);
+	if (textures->no->path)
+		printf("NO texture: %s\n", textures->no->path);
 	else
 		printf("NO texture: (not found)\n");
-	if (textures->so)
-		printf("SO texture: %s\n", textures->so);
+	if (textures->so->path)
+		printf("SO texture: %s\n", textures->so->path);
 	else
 		printf("SO texture: (not found)\n");
-	if (textures->we)
-		printf("WE texture: %s\n", textures->we);
+	if (textures->we->path)
+		printf("WE texture: %s\n", textures->we->path);
 	else
 		printf("WE texture: (not found)\n");
-	if (textures->ea)
-		printf("EA texture: %s\n", textures->ea);
+	if (textures->ea->path)
+		printf("EA texture: %s\n", textures->ea->path);
 	else
 		printf("EA texture: (not found)\n");
 	if (textures->floor)

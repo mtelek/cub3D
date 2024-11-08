@@ -22,6 +22,7 @@ int	argc_check(int argc)
 }
 
 int	main(int argc, char **argv)
+
 {
 	t_main	main;
 

@@ -48,7 +48,8 @@ void parse_resolution(const char *resolution_str, t_main *main)
 
 void get_display_resolution(t_main *main)
 {
-    int fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
+    // int fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
+    int fd = -1;
     if (fd == -1)
     {
         printf("Failed to open framebuffer virtual_size. Falling back to 800x800\n");

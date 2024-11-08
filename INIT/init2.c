@@ -90,14 +90,14 @@ char	*find_line(t_main *main, char *to_find, int length)
 
 int	split_content(t_main *main)
 {
-	main->textures->no = find_line(main, "NO", 2);
-	main->textures->so = find_line(main, "SO", 2);
-	main->textures->we = find_line(main, "WE", 2);
-	main->textures->ea = find_line(main, "EA", 2);
+	main->textures->no->path = find_line(main, "NO", 2);
+	main->textures->so->path = find_line(main, "SO", 2);
+	main->textures->we->path = find_line(main, "WE", 2);
+	main->textures->ea->path = find_line(main, "EA", 2);
 	main->textures->floor = find_line(main, "F", 1);
 	main->textures->ceiling = find_line(main, "C", 1);
-	if (!main->textures->no || !main->textures->so || !main->textures->we
-		|| !main->textures->ea || !main->textures->floor
+	if (!main->textures->no->path || !main->textures->so->path || !main->textures->we->path
+		|| !main->textures->ea->path || !main->textures->floor
 		|| !main->textures->ceiling)
 		return (free_after_split(main), printf(ERR_TEXTURE_MISSING), 1);
 	if (init_map(main))

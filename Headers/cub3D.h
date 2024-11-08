@@ -30,6 +30,7 @@
 # define CEILING_COLOR 0x0000FF   	// BlUE
 # define FLOOR_COLOR 0x8B4513     	// BROWN
 # define WALL_COLOR 0x404040   		// Dark gray (RGB(64, 64, 64))
+# define TEXT_SIZE 500
 
 typedef struct s_ray
 {
@@ -51,6 +52,7 @@ typedef struct s_ray
 	float h_ry;
 	float v_rx;
 	float v_ry;
+	char edge;
 }	t_ray;
 
 typedef struct s_player_data
@@ -62,7 +64,7 @@ typedef struct s_player_data
 	float	pdx;
 	float	pdy;
 	char	direction;
-	
+
 }	t_player_data;
 
 typedef struct s_map
@@ -89,16 +91,37 @@ typedef struct s_data
 	float	speed;
 }               t_data;
 
+typedef struct s_text
+{
+	void 	*img;
+	char 	*addr;
+	int		*pix;
+	int		w;
+	int		h;
+	int		bpp;
+	int		line_l;
+	int		endian;
+	char	*path;
+}		t_text;
+
 
 typedef struct s_textures
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	t_text	*no;
+	t_text	*so;
+	t_text	*we;
+	t_text	*ea;
 	char	*floor;
 	char	*ceiling;
 }			t_textures;
+
+typedef struct s_wall
+{
+	int	top;
+	int	height;
+	int bottom;
+}			t_wall;
+
 
 typedef struct s_main
 {
@@ -162,5 +185,8 @@ char	*ft_strchr(const char *str, int c);
 //HELPER_FUNCTIONS
 void	print_textures(t_textures *textures);
 void	print_map(char **map);
+
+//TEXTURES
+int load_textures(t_main *main);
 
 #endif

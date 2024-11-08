@@ -64,10 +64,14 @@ int	init_map(t_main *main)
 
 void	init_textures(t_textures *textures)
 {
-	textures->no = NULL;
-	textures->so = NULL;
-	textures->we = NULL;
-	textures->ea = NULL;
+	textures->no = malloc(sizeof(t_text));
+	// if (!textures->no)
+	textures->so = malloc(sizeof(t_text));
+	// if (!textures->so)
+	textures->we = malloc(sizeof(t_text));
+	// if (!textures->we)
+	textures->ea = malloc(sizeof(t_text));
+	// if (!textures->ea)
 	textures->floor = NULL;
 	textures->ceiling = NULL;
 }

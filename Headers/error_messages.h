@@ -41,4 +41,8 @@
 //MAP
 # define ERR_INV_MAP "Error: invalid map\n"
 
+//
+# define ERR_INV_TEXT_IMG "Error creating texture image\n"
+
+
 #endif
