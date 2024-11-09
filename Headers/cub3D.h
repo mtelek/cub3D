@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/06 20:04:16 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/09 20:01:14 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
 # define PLAYER_COLOR 0xFFFF00
-# define FOV (M_PI / 2.0f)
+# define BASE_FOV (M_PI / 3.0f)
 # define CEILING_COLOR 0x0000FF   	// BlUE
 # define FLOOR_COLOR 0x8B4513     	// BROWN
 # define WALL_COLOR 0x404040   		// Dark gray (RGB(64, 64, 64))
@@ -87,6 +87,7 @@ typedef struct s_data
     int     size_line;
     int     endian;
 	float	speed;
+	float	fov; //could put it together with pov
 }               t_data;
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/06 20:16:46 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/09 19:55:07 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	init_data(t_main *main)
 	main->data->keys[1] = 0;
 	main->data->keys[2] = 0;
 	main->data->keys[3] = 0;
-	main->data->angle_step = FOV / main->pov;
-	main->data->proj_plane_dist = main->s_width / (2 * tan(FOV / 2));
+	main->data->fov = BASE_FOV * (main->s_width / main->s_height);
+	main->data->angle_step = main->data->fov / main->pov;
+	main->data->proj_plane_dist = main->s_width / (2 * tan(main->data->fov / 2));
 }
 
 float	get_speed(t_main *main)

@@ -1,5 +1,6 @@
 //with wrong texture calling there are memory leaks
 //memory leaks in general
+#maybe fish eye effect is fixed i dont actually know
 
 //FIXED:
 //proper player init
