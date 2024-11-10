@@ -53,8 +53,8 @@ void get_display_resolution(t_main *main)
     if (fd == -1)
     {
         printf("Failed to open framebuffer virtual_size. Falling back to 800x800\n");
-        main->s_width = 800;
-        main->s_height = 800;
+        main->s_width = 1200;
+        main->s_height = 1200;
         return;
     }
     char resolution[100];

@@ -20,7 +20,7 @@ void	print_map(char **map)
 	printf("Map:\n");
 	while (map[i])
 	{
-		printf("%s\n", map[i]);
+		printf("%s$$\n", map[i]);
 		i++;
 	}
 }

@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 		return (free_after_split(&main), 1);
 	init_mlx(&main);
 	//print_textures(main.textures);
-	//print_map(main.map->map);
+	// print_map(main.map->map);
 	free_function(&main);
 	return (0);
 }
