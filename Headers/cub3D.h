@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/09 20:01:14 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/10 21:51:27 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_ray
 	float h_ry;
 	float v_rx;
 	float v_ry;
+	char wall_side;
 }	t_ray;
 
 typedef struct s_player_data
@@ -90,13 +91,23 @@ typedef struct s_data
 	float	fov; //could put it together with pov
 }               t_data;
 
+typedef struct s_texture {
+    void    *img;
+    char    *path;
+    int     width;
+    int     height;
+    int     *data;
+    int     bpp;
+    int     size_line;
+    int     endian;
+} t_texture;
 
 typedef struct s_textures
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	t_texture	*no;
+	t_texture	*so;
+	t_texture	*we;
+	t_texture	*ea;
 	char	*floor;
 	char	*ceiling;
 }			t_textures;
@@ -118,7 +129,7 @@ typedef struct s_main
 
 //INIT
 int		init_main(t_main *main);
-void	init_textures(t_textures *textures);
+void 	init_textures(t_main *main);
 int		init_map(t_main *main);
 int		process_buffer(char *buffer, t_main *main, int *index);
 int		read_file(const char *filename, t_main *main);
@@ -154,6 +165,7 @@ void	get_display_resolution(t_main *main);
 //FREE
 void	free_function(t_main *main);
 void	free_after_split(t_main *main);
+void	free_t_path(t_main *main);
 
 //LIBFT_UTILS
 char	*ft_strdup(const char *s1);

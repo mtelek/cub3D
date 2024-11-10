@@ -6,16 +6,29 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/20 00:12:52 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/10 21:50:28 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/cub3D.h"
 
+void	free_t_path(t_main *main)
+{
+	if (main->textures->no->path)
+		free(main->textures->no->path);
+	if (main->textures->so->path)
+		free(main->textures->no->path);
+	if (main->textures->we->path)
+		free(main->textures->no->path);
+	if (main->textures->ea->path)
+		free(main->textures->no->path);
+}
+
 void	free_textures(t_main *main)
 {
 	if (main->textures)
 	{
+		free_t_path(main);
 		if (main->textures->no)
 			free(main->textures->no);
 		if (main->textures->so)

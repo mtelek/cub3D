@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/10/29 14:57:08 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/09 21:41:02 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,23 @@ int	init_map(t_main *main)
 	return (0);
 }
 
-void	init_textures(t_textures *textures)
+void init_textures(t_main *main)
 {
-	textures->no = NULL;
-	textures->so = NULL;
-	textures->we = NULL;
-	textures->ea = NULL;
-	textures->floor = NULL;
-	textures->ceiling = NULL;
+    main->textures->no->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->no->path, &main->textures->no->width, &main->textures->no->height);
+    main->textures->so->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->so->path, &main->textures->so->width, &main->textures->so->height);
+    main->textures->we->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->we->path, &main->textures->we->width, &main->textures->we->height);
+    main->textures->ea->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->ea->path, &main->textures->ea->width, &main->textures->ea->height);
+    if (!main->textures->no->img || !main->textures->so->img || !main->textures->we->img || !main->textures->ea->img)
+    {
+        printf("Error loading textures\n");
+        exit(1); // Add appropriate error handling here
+    }
+    main->textures->no->data = (int *)mlx_get_data_addr(main->textures->no->img, &main->textures->no->bpp, &main->textures->no->size_line, &main->textures->no->endian);
+    main->textures->so->data = (int *)mlx_get_data_addr(main->textures->so->img, &main->textures->so->bpp, &main->textures->so->size_line, &main->textures->so->endian);
+    main->textures->we->data = (int *)mlx_get_data_addr(main->textures->we->img, &main->textures->we->bpp, &main->textures->we->size_line, &main->textures->we->endian);
+    main->textures->ea->data = (int *)mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
+	main->textures->floor = NULL;
+	main->textures->ceiling = NULL;
 }
 
 int	init_main(t_main *main)
@@ -80,7 +89,12 @@ int	init_main(t_main *main)
 	main->textures = malloc(sizeof(t_textures));
 	if (!main->textures)
 		return (printf(ERR_MF_TEXTURES), 1);
-	init_textures(main->textures);
+	main->textures->no = malloc(sizeof(t_texture));
+	main->textures->so = malloc(sizeof(t_texture));
+	main->textures->we = malloc(sizeof(t_texture));
+	main->textures->ea = malloc(sizeof(t_texture));
+	if (!main->textures->no || !main->textures->so || !main->textures->we || !main->textures->ea)
+		return (printf("Error allocating memory for textures"), 1); //proper one missing
 	main->data = (t_data *)malloc(sizeof(t_data));
 	if (!main->data)
 		return (printf(ERR_MF_DATA), 1);

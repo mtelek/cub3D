@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/09 19:55:07 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/10 20:09:55 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	init_mlx(t_main *main)
 			main->s_height, "cub3D");
 	if (!main->data->win_ptr)
 		return (printf(ERR_WINDOW), 1);
+	init_textures(main); //could put maybe a little bit above
 	main->data->speed = get_speed(main);
 	mlx_hook(main->data->win_ptr, 2, 1L << 0, handle_key_press, main);
 	mlx_hook(main->data->win_ptr, 3, 1L << 1, handle_key_release, main);
