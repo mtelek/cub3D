@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 21:12:25 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/10 22:00:42 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,13 @@ void choose_shortest_ray(t_ray *ray)
     {
         ray->hit_rx = ray->h_rx;
         ray->hit_ry = ray->h_ry;
-        ray->wall_side = (ray->ra > M_PI) ? 'N' : 'S'; // North if looking up, South if looking down
+        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N'; // North if looking up, South if looking down
     }
     else if (ray->vertical_ray > 0)
     {
         ray->hit_rx = ray->v_rx;
         ray->hit_ry = ray->v_ry;
-        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'W' : 'E'; // West if looking left, East if right
+        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W'; // West if looking left, East if right
     }
 }
 
