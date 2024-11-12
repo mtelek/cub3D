@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 22:00:42 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/12 14:52:53 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,47 @@ t_ray	cast_single_ray(t_main *main, float ra, int i)
     return (ray);
 }
 
+void copy_pix_line(t_texture *text, char *temp_text, int y)
+{
+	int	x;
+	int	byte;
+
+	byte = 0;
+	x = text->width - 1;
+	while (x >= 0)
+	{
+		while (byte < (text->bpp / 8))
+		{
+			temp_text[y * text->size_line + (text->width - x - 1) * (text->bpp / 8) + byte]
+			= text->data[y * text->size_line + x * (text->bpp / 8) + byte];
+			byte++;
+		}
+		byte = 0;
+		x--;
+	}
+}
+
+void reverse_texture(t_texture *text)
+{
+	char	*temp_text;
+	int		y;
+
+	y = 0;
+	temp_text = malloc(text->size_line * text->height);
+	if (!temp_text)
+	{
+		exit(1); //frees missing
+	}
+	else
+		while (y < text->height)
+		{
+			copy_pix_line(text, temp_text, y);
+			y++;
+		}
+	ft_memcpy(text->data, temp_text, text->size_line * text->height);
+	free(temp_text);
+}
+
 void draw_rays(t_main *main)
 {
     t_ray ray;
@@ -187,8 +228,16 @@ void draw_rays(t_main *main)
         int screen_x = (x * main->s_width) / main->pov;
         t_texture *texture = NULL;
         if (ray.wall_side == 'N') texture = main->textures->no;
-        else if (ray.wall_side == 'S') texture = main->textures->so;
-        else if (ray.wall_side == 'W') texture = main->textures->we;
+        else if (ray.wall_side == 'S')
+		{
+			reverse_texture(main->textures->so);
+			texture = main->textures->so;
+		}
+        else if (ray.wall_side == 'W')
+		{
+			reverse_texture(main->textures->we);
+			texture = main->textures->we;
+		}
         else if (ray.wall_side == 'E') texture = main->textures->ea;
         for (int y = 0; y < wall_top; y++) {
             put_pixel_to_image(main, screen_x, y, CEILING_COLOR);

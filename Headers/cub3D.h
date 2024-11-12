@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/11 21:27:30 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/12 14:50:12 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	free_after_split(t_main *main);
 char	*ft_strdup(const char *s1);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 char	*ft_strchr(const char *str, int c);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 //HELPER_FUNCTIONS
 void	print_textures(t_textures *textures);
