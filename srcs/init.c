@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/11 21:47:27 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/12 23:46:58 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,12 @@ void init_textures(t_main *main)
         printf("Error loading textures\n");
         exit(1); // Add appropriate error handling here
     }
-    main->textures->no->data = (int *)mlx_get_data_addr(main->textures->no->img, &main->textures->no->bpp, &main->textures->no->size_line, &main->textures->no->endian);
-    main->textures->so->data = (int *)mlx_get_data_addr(main->textures->so->img, &main->textures->so->bpp, &main->textures->so->size_line, &main->textures->so->endian);
-    main->textures->we->data = (int *)mlx_get_data_addr(main->textures->we->img, &main->textures->we->bpp, &main->textures->we->size_line, &main->textures->we->endian);
-    main->textures->ea->data = (int *)mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
+    main->textures->no->data = mlx_get_data_addr(main->textures->no->img, &main->textures->no->bpp, &main->textures->no->size_line, &main->textures->no->endian);
+	main->textures->so->data = mlx_get_data_addr(main->textures->so->img, &main->textures->so->bpp, &main->textures->so->size_line, &main->textures->so->endian);
+	main->textures->we->data = mlx_get_data_addr(main->textures->we->img, &main->textures->we->bpp, &main->textures->we->size_line, &main->textures->we->endian);
+	main->textures->ea->data = mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
+	reverse_texture(main->textures->no);
+	reverse_texture(main->textures->ea);
 	main->textures->floor = NULL;
 	main->textures->ceiling = NULL;
 }

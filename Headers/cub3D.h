@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/12 14:50:12 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/12 23:42:08 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ typedef struct s_texture {
     char    *path;
     int     width;
     int     height;
-    int     *data;
+    char     *data;
     int     bpp;
     int     size_line;
     int     endian;
-} t_texture;
+}				t_texture;
 
 typedef struct s_textures
 {
@@ -147,7 +147,10 @@ void	draw_map(t_main *main);
 //MLX
 int		init_mlx(t_main *main);
 void	render(t_main *main, int count);
-void put_pixel_to_image(t_main *main, int x, int y, int color);
+void 	put_pixel_to_image(t_main *main, int x, int y, int color);
+
+//TEXTURE
+void 	reverse_texture(t_texture *text);
 
 //MOVEMENT
 int		handle_key_press(int keycode, t_main *main);

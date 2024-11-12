@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/12 14:52:53 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/12 23:52:04 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,13 @@ void choose_shortest_ray(t_ray *ray)
     {
         ray->hit_rx = ray->h_rx;
         ray->hit_ry = ray->h_ry;
-        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N'; // North if looking up, South if looking down
+        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N'; // North if looking down, South if looking up
     }
     else if (ray->vertical_ray > 0)
     {
         ray->hit_rx = ray->v_rx;
         ray->hit_ry = ray->v_ry;
-        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W'; // West if looking left, East if right
+        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W'; // West if looking right, East if left
     }
 }
 
@@ -174,39 +174,30 @@ void copy_pix_line(t_texture *text, char *temp_text, int y)
 {
 	int	x;
 	int	byte;
+	int	temp_offset;
+	int	data_offset;
 
-	byte = 0;
-	x = text->width - 1;
-	while (x >= 0)
+	for (x = text->width - 1; x >= 0; x--)
 	{
-		while (byte < (text->bpp / 8))
+		for (byte = 0; byte < text->bpp / 8; byte++)
 		{
-			temp_text[y * text->size_line + (text->width - x - 1) * (text->bpp / 8) + byte]
-			= text->data[y * text->size_line + x * (text->bpp / 8) + byte];
-			byte++;
+			temp_offset = y * text->size_line + (text->width - x - 1) * (text->bpp / 8) + byte;
+			data_offset = y * text->size_line + x * (text->bpp / 8) + byte;
+			temp_text[temp_offset] = text->data[data_offset];
 		}
-		byte = 0;
-		x--;
 	}
 }
 
 void reverse_texture(t_texture *text)
 {
-	char	*temp_text;
-	int		y;
+    char	*temp_text;
+    int		y;
 
-	y = 0;
 	temp_text = malloc(text->size_line * text->height);
 	if (!temp_text)
-	{
-		exit(1); //frees missing
-	}
-	else
-		while (y < text->height)
-		{
-			copy_pix_line(text, temp_text, y);
-			y++;
-		}
+		exit(1); // Memory allocation failed
+	for (y = 0; y < text->height; y++)
+		copy_pix_line(text, temp_text, y);
 	ft_memcpy(text->data, temp_text, text->size_line * text->height);
 	free(temp_text);
 }
@@ -214,30 +205,21 @@ void reverse_texture(t_texture *text)
 void draw_rays(t_main *main)
 {
     t_ray ray;
+	t_texture *texture = NULL;
 
     float start_angle = normalize_angle(main->player_data->player_angle - main->data->fov / 2);
     for (int x = 0; x < main->pov; x++)
     {
         float ray_angle = normalize_angle(start_angle + x * main->data->angle_step);
         ray = cast_single_ray(main, ray_angle, x);
-
         float perpendicular_distance = main->data->d_ray[x] * cos(main->player_data->player_angle - ray_angle);
         float wall_height = (main->map->mapS * main->data->proj_plane_dist) / perpendicular_distance;
         int wall_top = (main->s_height / 2) - (wall_height / 2);
         int wall_bottom = wall_top + wall_height;
         int screen_x = (x * main->s_width) / main->pov;
-        t_texture *texture = NULL;
         if (ray.wall_side == 'N') texture = main->textures->no;
-        else if (ray.wall_side == 'S')
-		{
-			reverse_texture(main->textures->so);
-			texture = main->textures->so;
-		}
-        else if (ray.wall_side == 'W')
-		{
-			reverse_texture(main->textures->we);
-			texture = main->textures->we;
-		}
+        else if (ray.wall_side == 'S') texture = main->textures->so;
+        else if (ray.wall_side == 'W') texture = main->textures->we;
         else if (ray.wall_side == 'E') texture = main->textures->ea;
         for (int y = 0; y < wall_top; y++) {
             put_pixel_to_image(main, screen_x, y, CEILING_COLOR);
@@ -251,8 +233,8 @@ void draw_rays(t_main *main)
             else
                 tex_x = ((int)ray.hit_ry % (int)main->map->mapS) * texture->width / (int)main->map->mapS;
 
-            int color = texture->data[tex_y * texture->width + tex_x];
-            put_pixel_to_image(main, screen_x, y, color);
+            int color = *(int *)(texture->data + tex_y * texture->size_line + tex_x * (texture->bpp / 8));
+			put_pixel_to_image(main, screen_x, y, color);
         }
         for (int y = wall_bottom; y < main->s_height; y++) {
             put_pixel_to_image(main, screen_x, y, FLOOR_COLOR);
