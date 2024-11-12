@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 21:51:27 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/11 21:27:30 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ void	get_display_resolution(t_main *main);
 //FREE
 void	free_function(t_main *main);
 void	free_after_split(t_main *main);
-void	free_t_path(t_main *main);
 
 //LIBFT_UTILS
 char	*ft_strdup(const char *s1);

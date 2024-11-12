@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/09 21:41:02 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/11 21:47:27 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	init_map(t_main *main)
 		i++;
 	}
 	main->map->map[map_index] = NULL;
-	spaces_to_zeros(main);
+	//spaces_to_zeros(main);
 	return (0);
 }
 

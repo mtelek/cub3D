@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:18:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 21:12:08 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/11 21:55:16 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void parse_resolution(const char *resolution_str, t_main *main)
     int temp_height;
     int is_height;
 
-    i = 0;
+    i = -1;
     temp_width = 0;
     temp_height = 0;
     is_height = 0;
-    while (resolution_str[i] != '\0')
+    while (resolution_str[++i] != '\0')
     {
         if (resolution_str[i] == ',')
         {
@@ -40,7 +40,6 @@ void parse_resolution(const char *resolution_str, t_main *main)
             if (resolution_str[i] >= '0' && resolution_str[i] <= '9')
                 temp_height = temp_height * 10 + (resolution_str[i] - '0');
         }
-        i++;
     }
     main->s_width = temp_width;
     main->s_height = temp_height;
@@ -48,7 +47,11 @@ void parse_resolution(const char *resolution_str, t_main *main)
 
 void get_display_resolution(t_main *main)
 {
-    int fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
+    int fd;
+    char resolution[100];
+    ssize_t bytes_read;
+    
+    fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
     if (fd == -1)
     {
         printf("Failed to open framebuffer virtual_size. Falling back to 800x800\n");
@@ -56,8 +59,7 @@ void get_display_resolution(t_main *main)
         main->s_height = 800;
         return;
     }
-    char resolution[100];
-    ssize_t bytes_read = read(fd, resolution, sizeof(resolution) - 1);
+    bytes_read = read(fd, resolution, sizeof(resolution) - 1);
     if (bytes_read > 0)
     {
         resolution[bytes_read] = '\0';
