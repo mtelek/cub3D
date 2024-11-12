@@ -153,46 +153,6 @@ t_ray cast_single_ray(t_main *main, float ra, int i)
 	return (ray);
 }
 
-void    draw_vertical(t_main *main, int screen_x, t_ray *ray, t_wall wall)
-{
-	int		color;
-	int	    offset_x;
-	float	screen_y;
-	float	text_y;
-	float	text_step_y;
-	t_text	*text;
-
-	if (ray->edge == 'V')
-	{
-		if (main->player_data->px < ray->hit_rx && main->map->map[(int)(ray->hit_ry  /  main->map->mapS)][(int)(ray->hit_rx  /  main->map->mapS) - 1 ] == '0')
-			text = main->textures->ea;
-		else
-		 	text = main->textures->we;
-		offset_x = fmod(ray->hit_ry * (text->w / main->map->mapS), text->w); //count sep
-	}
-	else if (ray->edge == 'H')
-	{
-		if (main->player_data->py > ray->hit_ry
-		&&
-			main->map->map[(int)(ray->hit_ry / main->map->mapS) + 1][(int)(ray->hit_rx  /  main->map->mapS)] == '0')
-				text = main->textures->no;
-		else
-			text = main->textures->so;
-   		offset_x = fmod(ray->hit_rx * (text->w / main->map->mapS), text->w);
-	}
-	screen_y = wall.top;
-	text_y = 0;
-   	text_step_y = (float)text->h / wall.height;
-	while (screen_y < wall.bottom && screen_y < main->s_height)
-	{
-		if (text_y >= text->h)
-        	text_y = text->h - 1;
-		color = text->pix[(int)text_y * text->w + offset_x];
-		put_pixel_to_image(main, screen_x, screen_y, color);
-		screen_y++;
-		text_y +=  text_step_y;
-	}
-}
 
 void draw_rays(t_main *main)
 {

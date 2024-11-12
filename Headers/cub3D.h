@@ -121,7 +121,7 @@ typedef struct s_wall
 	int	height;
 	int bottom;
 }			t_wall;
-	
+
 typedef struct s_main
 {
 	char			**content;
@@ -188,5 +188,6 @@ void	print_map(char **map);
 //TEXTURES
 int load_textures(t_main *main);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+void    draw_vertical(t_main *main, int screen_x, t_ray *ray, t_wall wall);
 
 #endif

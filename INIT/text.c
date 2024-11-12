@@ -22,7 +22,6 @@ int load_texture(void *mlx, t_text *text)
 		return (printf(ERR_INV_TEXT_IMG), printf("%s\n", text->path), 1); // do free
 	text->addr = mlx_get_data_addr(text->img, &text->bpp, &text->line_l, &text->endian);
 	text->pix = (int *)text->addr;
-	// printf("text->line_l: %d, text->w: %d, text->h: %d\n", text->line_l, text->w, text->h);
 	return (0);
 }
 
@@ -31,6 +30,7 @@ void copy_pix_line(t_text *text, char *temp_text, int y)
 	int	x;
 	int	byte;
 
+	byte = 0;
 	x = text->w - 1;
 	while (x >= 0)
 	{
@@ -67,7 +67,7 @@ int load_texture_and_reverse(void *mlx, t_text *text)
 	return(0);
 }
 
-int load_textures(t_main *main) // do return
+int load_textures(t_main *main)
 {
 	if (
 	load_texture(main->data->mlx_ptr, main->textures->no) ||

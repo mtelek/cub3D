@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror  -I/mnt/c/Users/marci/minilibx-linux   #-fsanitize=address,undefined
+CFLAGS = -g -Wall -Wextra -Werror  -I/mnt/c/Users/marci/minilibx-linux  # -fsanitize=address,undefined
 LDFLAGS = -L/mnt/c/Users/marci/minilibx-linux -lmlx -lm -lXext -lX11
 SRCDIR = .
 OBJDIR = .objs
@@ -9,7 +9,7 @@ SRCS = main.c INIT/init.c INIT/init2.c free.c \
 		helper_functions.c \
 		INIT/map_check.c INIT/mlx.c INIT/map_init.c INIT/display.c \
 		INIT/movement.c INIT/render.c INIT/rays.c \
-		INIT/text.c
+		INIT/text.c INIT/draw_text.c
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
