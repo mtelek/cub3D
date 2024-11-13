@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/12 23:46:58 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 01:58:57 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,43 @@ int	init_map(t_main *main)
 	return (0);
 }
 
+int rgb_to_hex(const char *rgb_str)
+{
+    int r, g, b;
+    char *token;
+    char *rgb_copy = ft_strdup(rgb_str);
+
+    token = ft_strtok(rgb_copy, ',');
+    r = token ? ft_atoi(token) : -1;
+    token = ft_strtok(NULL, ',');
+    g = token ? ft_atoi(token) : -1;
+    token = ft_strtok(NULL, ',');
+    b = token ? ft_atoi(token) : -1;
+    free(rgb_copy);
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+    {
+        printf("Invalid RGB values\n");
+        exit(1); // free correctly here
+    }
+    return ((r << 16) | (g << 8) | b);
+}
+
+void init_floor_and_ceiling_colors(t_main *main)
+{
+    if (main->textures->floor)
+    {
+        main->textures->floor_color = rgb_to_hex(main->textures->floor);
+        //free(main->textures->floor);  // Free the original string
+        //main->textures->floor = NULL;
+    }
+    if (main->textures->ceiling)
+    {
+        main->textures->ceiling_color = rgb_to_hex(main->textures->ceiling);
+        //free(main->textures->ceiling);  // Free the original string
+        //main->textures->ceiling = NULL;
+    }
+}
+
 void init_textures(t_main *main)
 {
     main->textures->no->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->no->path, &main->textures->no->width, &main->textures->no->height);
@@ -79,8 +116,7 @@ void init_textures(t_main *main)
 	main->textures->ea->data = mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
 	reverse_texture(main->textures->no);
 	reverse_texture(main->textures->ea);
-	main->textures->floor = NULL;
-	main->textures->ceiling = NULL;
+	init_floor_and_ceiling_colors(main);
 }
 
 int	init_main(t_main *main)

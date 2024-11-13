@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:55:34 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 20:08:35 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 01:48:32 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	split_content(t_main *main)
 	main->textures->ea->path = find_line(main, "EA", 2);
 	main->textures->floor = find_line(main, "F", 1);
 	main->textures->ceiling = find_line(main, "C", 1);
+	print_textures(main->textures);
 	if (!main->textures->no || !main->textures->so || !main->textures->we
 		|| !main->textures->ea || !main->textures->floor
 		|| !main->textures->ceiling)

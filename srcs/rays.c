@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/12 23:52:04 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 01:52:04 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void draw_rays(t_main *main)
         else if (ray.wall_side == 'W') texture = main->textures->we;
         else if (ray.wall_side == 'E') texture = main->textures->ea;
         for (int y = 0; y < wall_top; y++) {
-            put_pixel_to_image(main, screen_x, y, CEILING_COLOR);
+            put_pixel_to_image(main, screen_x, y, main->textures->ceiling_color);
         }
         for (int y = wall_top; y < wall_bottom; y++) {
             int tex_y = (y - wall_top) * texture->height / wall_height;
@@ -237,7 +237,7 @@ void draw_rays(t_main *main)
 			put_pixel_to_image(main, screen_x, y, color);
         }
         for (int y = wall_bottom; y < main->s_height; y++) {
-            put_pixel_to_image(main, screen_x, y, FLOOR_COLOR);
+            put_pixel_to_image(main, screen_x, y, main->textures->floor_color);
         }
     }
 }

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/12 23:42:08 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 02:02:16 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,11 @@
 # include <math.h>
 # include <X11/Xlib.h>
 # include <mlx.h>
-//# include "/mnt/c/Users/marci/minilibx-linux/mlx.h y"
 
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
 # define PLAYER_COLOR 0xFFFF00
 # define BASE_FOV (M_PI / 3.0f)
-# define CEILING_COLOR 0x0000FF   	// BlUE
-# define FLOOR_COLOR 0x8B4513     	// BROWN
-# define WALL_COLOR 0x404040   		// Dark gray (RGB(64, 64, 64))
 
 typedef struct s_ray
 {
@@ -110,6 +106,8 @@ typedef struct s_textures
 	t_texture	*ea;
 	char	*floor;
 	char	*ceiling;
+	int		floor_color;
+	int		ceiling_color;
 }			t_textures;
 
 typedef struct s_main
@@ -174,6 +172,8 @@ char	*ft_strdup(const char *s1);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 char	*ft_strchr(const char *str, int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strtok(char *str, char sepa);
+int		ft_atoi(const char *str);
 
 //HELPER_FUNCTIONS
 void	print_textures(t_textures *textures);

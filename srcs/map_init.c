@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/06 20:11:36 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 02:01:46 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void draw_rectangle(t_main *main, int x, int y, int color)
 
 void	map_check_failed(t_main *main)
 {
-	free_function(main);
+	free_function(main); //if spaces inside should close the window
 	printf(ERR_INV_MAP);
 	exit(1);
 }
