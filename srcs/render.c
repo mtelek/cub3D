@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/09 20:22:32 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:19:56 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void init_image(t_data *data, int width, int height)
     data->img = mlx_new_image(data->mlx_ptr, width, height);
     if (!data->img)
     {
-        fprintf(stderr, "Failed to create image\n");
+        printf(ERR_NO_IMG);
         exit(1);
     }
     data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line, &data->endian);
     if (!data->img_data)
     {
-        fprintf(stderr, "Failed to get image data address\n");
+        printf(ERR_NO_IMG_DATA_ADDRESS);
         exit(1);
     }
 }
@@ -101,6 +101,16 @@ void render(t_main *main, int count)
     draw_rays(main);
     draw_map(main);
     draw_player(main);
+    if (!main->data->mlx_ptr || !main->data->win_ptr)
+    {
+        printf(ERR_NO_MLX_WIN_PTR);
+        exit (1); //free missing
+    }
 	mlx_put_image_to_window(main->data->mlx_ptr, main->data->win_ptr, main->data->img, 0, 0);
+    if (!main->data->img)
+    {
+        printf(ERR_IMG_CREATE_F);
+        exit (1); //free missing
+    }
     mlx_destroy_image(main->data->mlx_ptr, main->data->img);
 }

@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 01:58:57 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:29:41 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
-
-void	spaces_to_zeros(t_main *main)
-{
-	int	i;
-	int	j;
-	int	convert_spaces;
-
-	i = -1;
-	while (main->map->map[++i])
-	{
-		j = -1;
-		convert_spaces = 0;
-		while (main->map->map[i][++j])
-		{
-			if (!convert_spaces && (main->map->map[i][j] == '1' || main->map->map[i][j] == '0'))
-				convert_spaces = 1;
-			if (convert_spaces && main->map->map[i][j] == ' ')
-				main->map->map[i][j] = '0';
-		}
-	}
-}
 
 int	init_map(t_main *main)
 {
@@ -58,7 +37,6 @@ int	init_map(t_main *main)
 		i++;
 	}
 	main->map->map[map_index] = NULL;
-	//spaces_to_zeros(main);
 	return (0);
 }
 
@@ -77,7 +55,7 @@ int rgb_to_hex(const char *rgb_str)
     free(rgb_copy);
     if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
     {
-        printf("Invalid RGB values\n");
+        printf(ERR_INV_RGB);
         exit(1); // free correctly here
     }
     return ((r << 16) | (g << 8) | b);
@@ -86,17 +64,9 @@ int rgb_to_hex(const char *rgb_str)
 void init_floor_and_ceiling_colors(t_main *main)
 {
     if (main->textures->floor)
-    {
         main->textures->floor_color = rgb_to_hex(main->textures->floor);
-        //free(main->textures->floor);  // Free the original string
-        //main->textures->floor = NULL;
-    }
     if (main->textures->ceiling)
-    {
         main->textures->ceiling_color = rgb_to_hex(main->textures->ceiling);
-        //free(main->textures->ceiling);  // Free the original string
-        //main->textures->ceiling = NULL;
-    }
 }
 
 void init_textures(t_main *main)
@@ -107,13 +77,18 @@ void init_textures(t_main *main)
     main->textures->ea->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->ea->path, &main->textures->ea->width, &main->textures->ea->height);
     if (!main->textures->no->img || !main->textures->so->img || !main->textures->we->img || !main->textures->ea->img)
     {
-        printf("Error loading textures\n");
+        printf(ERR_LOAD_TEX);
         exit(1); // Add appropriate error handling here
     }
     main->textures->no->data = mlx_get_data_addr(main->textures->no->img, &main->textures->no->bpp, &main->textures->no->size_line, &main->textures->no->endian);
 	main->textures->so->data = mlx_get_data_addr(main->textures->so->img, &main->textures->so->bpp, &main->textures->so->size_line, &main->textures->so->endian);
 	main->textures->we->data = mlx_get_data_addr(main->textures->we->img, &main->textures->we->bpp, &main->textures->we->size_line, &main->textures->we->endian);
 	main->textures->ea->data = mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
+	 if (!main->textures->no->data || !main->textures->so->data || !main->textures->we->data || !main->textures->ea->data)
+    {
+        printf(ERR_NO_TEX_DATA);
+        exit(1); // Add appropriate error handling here
+    }
 	reverse_texture(main->textures->no);
 	reverse_texture(main->textures->ea);
 	init_floor_and_ceiling_colors(main);
@@ -132,7 +107,7 @@ int	init_main(t_main *main)
 	main->textures->we = malloc(sizeof(t_texture));
 	main->textures->ea = malloc(sizeof(t_texture));
 	if (!main->textures->no || !main->textures->so || !main->textures->we || !main->textures->ea)
-		return (printf("Error allocating memory for textures"), 1); //proper one missing
+		return (printf(ERR_MF_TEX), 1);
 	main->data = (t_data *)malloc(sizeof(t_data));
 	if (!main->data)
 		return (printf(ERR_MF_DATA), 1);
@@ -141,6 +116,6 @@ int	init_main(t_main *main)
 		return (printf(ERR_MF_MAP_S), 1);
 	main->player_data = (t_player_data *)malloc(sizeof(t_player_data));
 	if (!main->player_data)
-		return (1); // error message missing
+		return (printf(ERR_MF_PLAYER_D), 1);
 	return (0);
 }

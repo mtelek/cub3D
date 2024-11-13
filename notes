@@ -1,6 +1,3 @@
-//with wrong texture calling there are memory leaks
-//memory leaks in general
-//can  bug into walls
+//memory leaks in general (with wrong texture calling there are memory leaks)
+//around walls player movement is slow and laggy
 //could make the code more readable
-//floor and ceiling still missing
-//dof problem

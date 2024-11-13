@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:18:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/11 21:55:16 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:22:03 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void get_display_resolution(t_main *main)
     fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
     if (fd == -1)
     {
-        printf("Failed to open framebuffer virtual_size. Falling back to 800x800\n");
+        printf(ERR_FRAME_BUFF);
         main->s_width = 800;
         main->s_height = 800;
         return;
@@ -68,7 +68,7 @@ void get_display_resolution(t_main *main)
     }
     else
     {
-        printf("Could not read resolution. Falling back to 800x800\n");
+        printf(ERR_NO_RES);
         main->s_width = 800;
         main->s_height = 800;
     }

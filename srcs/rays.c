@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 01:52:04 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:43:21 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_ray_var(t_ray *ray, float ra)
 
 void	calc_hor_ray(t_ray *ray, t_main *main)
 {
-	if (ray->ra > M_PI) // Looking up
+	if (ray->ra > M_PI)
 	{
 		ray->ry = ((int)(main->player_data->py) / (int)main->map->mapS)
 			* main->map->mapS - 0.0001;
@@ -48,7 +48,7 @@ void	calc_hor_ray(t_ray *ray, t_main *main)
 		ray->yo = -main->map->mapS;
 		ray->xo = -ray->yo * ray->atan;
 	}
-	else if (ray->ra < M_PI) // Looking down
+	else if (ray->ra < M_PI)
 	{
 		ray->ry = ((int)(main->player_data->py) / (int)main->map->mapS)
 			* main->map->mapS + main->map->mapS;
@@ -57,19 +57,19 @@ void	calc_hor_ray(t_ray *ray, t_main *main)
 		ray->yo = main->map->mapS;
 		ray->xo = -ray->yo * ray->atan;
 	}
-	else // Looking straight left or right
+	else
 	{
 		ray->rx = main->player_data->px;
 		ray->ry = main->player_data->py;
-		ray->dof = 150;
+		ray->dof = DOF_LIMIT;
 	}
-	while (ray->dof < 150)
+	while (ray->dof < DOF_LIMIT)
 	{
 		ray->mx = (int)(ray->rx / main->map->mapS);
 		ray->my = (int)(ray->ry / main->map->mapS);
 		if (ray->my < main->map->mapY && ray->my >= 0 && ray->mx >= 0
 			&& ray->mx < main->map->mapX[ray->my]
-			&& main->map->map[ray->my][ray->mx] == '1') // Wall hit
+			&& main->map->map[ray->my][ray->mx] == '1')
 		{
 			ray->horizontal_ray = calc_ray_l(main->player_data->px,
 					main->player_data->py, ray->rx, ray->ry);
@@ -89,7 +89,7 @@ void	calc_hor_ray(t_ray *ray, t_main *main)
 void	calc_ver_ray(t_ray *ray, t_main *main)
 {
 	ray->dof = 0;
-	if (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) // Looking left
+	if (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2)
 	{
 		ray->rx = ((int)(main->player_data->px) / (int)main->map->mapS)
 			* main->map->mapS - 0.0001;
@@ -98,7 +98,7 @@ void	calc_ver_ray(t_ray *ray, t_main *main)
 		ray->xo = -main->map->mapS;
 		ray->yo = -ray->xo * ray->ntan;
 	}
-	else if (ray->ra < M_PI_2 || ray->ra > 3 * M_PI_2) // Looking right
+	else if (ray->ra < M_PI_2 || ray->ra > 3 * M_PI_2)
 	{
 		ray->rx = ((int)(main->player_data->px) / (int)main->map->mapS)
 			* main->map->mapS + main->map->mapS;
@@ -107,19 +107,19 @@ void	calc_ver_ray(t_ray *ray, t_main *main)
 		ray->xo = main->map->mapS;
 		ray->yo = -ray->xo * ray->ntan;
 	}
-	else // Looking straight up or down
+	else
 	{
 		ray->rx = main->player_data->px;
 		ray->ry = main->player_data->py;
-		ray->dof = 150;
+		ray->dof = DOF_LIMIT;
 	}
-	while (ray->dof < 150)
+	while (ray->dof < DOF_LIMIT)
 	{
 		ray->mx = (int)(ray->rx / main->map->mapS);
 		ray->my = (int)(ray->ry / main->map->mapS);
 		if (ray->my < main->map->mapY && ray->my >= 0 && ray->mx >= 0
 			&& ray->mx < main->map->mapX[ray->my]
-			&& main->map->map[ray->my][ray->mx] == '1') // Wall hit
+			&& main->map->map[ray->my][ray->mx] == '1')
 		{
 			ray->vertical_ray = calc_ray_l(main->player_data->px,
 					main->player_data->py, ray->rx, ray->ry);
@@ -142,13 +142,13 @@ void choose_shortest_ray(t_ray *ray)
     {
         ray->hit_rx = ray->h_rx;
         ray->hit_ry = ray->h_ry;
-        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N'; // North if looking down, South if looking up
+        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N';
     }
     else if (ray->vertical_ray > 0)
     {
         ray->hit_rx = ray->v_rx;
         ray->hit_ry = ray->v_ry;
-        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W'; // West if looking right, East if left
+        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W';
     }
 }
 
@@ -195,7 +195,10 @@ void reverse_texture(t_texture *text)
 
 	temp_text = malloc(text->size_line * text->height);
 	if (!temp_text)
-		exit(1); // Memory allocation failed
+	{
+		printf(ERR_MF_TEMP_TEXT);
+		exit(1); //proper freeing missing
+	}
 	for (y = 0; y < text->height; y++)
 		copy_pix_line(text, temp_text, y);
 	ft_memcpy(text->data, temp_text, text->size_line * text->height);
@@ -227,12 +230,10 @@ void draw_rays(t_main *main)
         for (int y = wall_top; y < wall_bottom; y++) {
             int tex_y = (y - wall_top) * texture->height / wall_height;
             int tex_x;
-
             if (ray.wall_side == 'N' || ray.wall_side == 'S')
-                tex_x = ((int)ray.hit_rx % (int)main->map->mapS) * texture->width / (int)main->map->mapS;
+                tex_x = fmod(ray.hit_rx * (texture->width / main->map->mapS), texture->width);
             else
-                tex_x = ((int)ray.hit_ry % (int)main->map->mapS) * texture->width / (int)main->map->mapS;
-
+                tex_x = fmod(ray.hit_ry * (texture->width / main->map->mapS), texture->width);
             int color = *(int *)(texture->data + tex_y * texture->size_line + tex_x * (texture->bpp / 8));
 			put_pixel_to_image(main, screen_x, y, color);
         }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 02:02:16 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:43:35 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define MAX_LINES 4096
 # define PLAYER_COLOR 0xFFFF00
 # define BASE_FOV (M_PI / 3.0f)
+# define COLOR_MAP_WALL 0x7D7F7D 
+# define COLOR_MAP_FLOOR 0x000000
+# define DOF_LIMIT 150
 
 typedef struct s_ray
 {

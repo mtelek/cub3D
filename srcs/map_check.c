@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:52:00 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 00:09:47 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:30:23 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../Headers/cub3D.h"
 
 #include "../Headers/cub3D.h"
 
@@ -30,10 +28,10 @@ int	is_wall(t_main *main, float new_px, float new_py)
 		return (1);
 	if (main->map->map[new_y][new_x] == '1')
 		return (1);
-	if (main->map->map[(int)((new_py - buffer) / main->map->mapS)][new_x] == '1' || // Check above
-		main->map->map[(int)((new_py + buffer) / main->map->mapS)][new_x] == '1' || // Check below
-		main->map->map[new_y][(int)((new_px - buffer) / main->map->mapS)] == '1' || // Check left
-		main->map->map[new_y][(int)((new_px + buffer) / main->map->mapS)] == '1')   // Check right
+	if (main->map->map[(int)((new_py - buffer) / main->map->mapS)][new_x] == '1' ||
+		main->map->map[(int)((new_py + buffer) / main->map->mapS)][new_x] == '1' ||
+		main->map->map[new_y][(int)((new_px - buffer) / main->map->mapS)] == '1' ||
+		main->map->map[new_y][(int)((new_px + buffer) / main->map->mapS)] == '1')
 		return (1);
 	if (curr_x != new_x && curr_y != new_y)
 	{
@@ -73,7 +71,8 @@ int	check_lines(char *line, int end, char **map, int i)
 	k = -1;
 	while (map[i][++k])
 	{
-		if (map[i][k] == '0' && (map[i - 1][k] == ' ' || map[i + 1][k] == ' '))
+		if ((map[i][k] == '0' && (map[i - 1][k] == ' ' || map[i + 1][k] == ' ')) ||
+		(k > 0 && map[i][k] == '0' && (map[i][k-1] == ' ' || map[i][k+1] == ' ')))
 			return (1);
 	}
 	return (0);

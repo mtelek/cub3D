@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 20:09:55 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:37:38 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,22 @@ float	get_speed(t_main *main)
 	if (round(devide) <= 1)
 		return (1.1);
 	else
-		return (2); //could calc it better
+		return (3); //could calc it better, could use a constant here so i culd change it from .h
 }
 
 int	init_mlx(t_main *main)
 {
+	int hook1;
+	int hook2;
 	get_display_resolution(main);
-	main->pov = main->s_width; // SETTING POV
+	main->pov = main->s_width;
 	init_data(main);
 	main->data->d_ray = malloc(sizeof(float) * (main->pov + 1));
 	if (!main->data->d_ray)
-		exit(1); // free and printf missing here
+	{
+		printf(ERR_MF_D_RAY);
+		exit(1); // free and missing here
+	}
 	main->data->mlx_ptr = mlx_init();
 	if (!main->data->mlx_ptr)
 		return (printf(ERR_INIT_MLX), 1);
@@ -47,11 +52,25 @@ int	init_mlx(t_main *main)
 			main->s_height, "cub3D");
 	if (!main->data->win_ptr)
 		return (printf(ERR_WINDOW), 1);
-	init_textures(main); //could put maybe a little bit above
+	init_textures(main);
 	main->data->speed = get_speed(main);
-	mlx_hook(main->data->win_ptr, 2, 1L << 0, handle_key_press, main);
-	mlx_hook(main->data->win_ptr, 3, 1L << 1, handle_key_release, main);
-	mlx_loop_hook(main->data->mlx_ptr, update_movement, main);
+	hook1 = mlx_hook(main->data->win_ptr, 2, 1L << 0, handle_key_press, main);
+	hook2 = mlx_hook(main->data->win_ptr, 3, 1L << 1, handle_key_release, main);
+	if (!hook1 || !hook2)
+	{
+		printf(ERR_MLX_HOOK_F);
+		exit (1); //proper freeing missing
+	}
+	if (mlx_loop_hook(main->data->mlx_ptr, update_movement, main) == 0)
+	{
+		printf(ERR_LOOP_HOOK);
+		exit(1); //proper freeing missing
+	}
+	if (!main->data->mlx_ptr)
+	{
+		printf(ERR_NO_MLX_PTR);
+		exit (1); //proper freeing missing
+	}
 	mlx_loop(main->data->mlx_ptr);
 	return (0);
 }

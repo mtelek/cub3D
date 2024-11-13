@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 02:01:46 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:33:49 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void draw_rectangle(t_main *main, int x, int y, int color)
 
 void	map_check_failed(t_main *main)
 {
-	free_function(main); //if spaces inside should close the window
+	free_function(main);
 	printf(ERR_INV_MAP);
 	exit(1);
 }
@@ -140,9 +140,9 @@ void    draw_map(t_main *main)
 			xo = x * main->map->mapS;
 			yo = y * main->map->mapS;
 			if (main->map->map[y][x] == '1')
-				draw_rectangle(main, xo, yo, 0xFFFFFF); // White
+				draw_rectangle(main, xo, yo, COLOR_MAP_WALL);
 			else
-				draw_rectangle(main, xo, yo, 0x000000); // Black
+				draw_rectangle(main, xo, yo, COLOR_MAP_FLOOR);
 		}
 	}
 }
