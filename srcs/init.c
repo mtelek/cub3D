@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:29:41 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 20:46:53 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,43 @@ int	init_map(t_main *main)
 	return (0);
 }
 
-int rgb_to_hex(const char *rgb_str)
+int rgb_to_hex(const char *rgb_str, int *r, int *g, int *b)
 {
-    int r, g, b;
     char *token;
-    char *rgb_copy = ft_strdup(rgb_str);
+    char *rgb_copy;
 
+	rgb_copy = ft_strdup(rgb_str);
     token = ft_strtok(rgb_copy, ',');
-    r = token ? ft_atoi(token) : -1;
+    if (token != NULL)
+        *r = ft_atoi(token);
     token = ft_strtok(NULL, ',');
-    g = token ? ft_atoi(token) : -1;
+    if (token != NULL)
+        *g = ft_atoi(token);
     token = ft_strtok(NULL, ',');
-    b = token ? ft_atoi(token) : -1;
+    if (token != NULL)
+        *b = ft_atoi(token);
     free(rgb_copy);
-    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+    if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
     {
         printf(ERR_INV_RGB);
-        exit(1); // free correctly here
+        exit(1); // Free any other resources here if needed
     }
-    return ((r << 16) | (g << 8) | b);
+    return ((*r << 16) | (*g << 8) | *b);
 }
 
 void init_floor_and_ceiling_colors(t_main *main)
 {
+	int r;
+	int g;
+	int b;
+
+	r = -1;
+	g = -1;
+	b = -1;
     if (main->textures->floor)
-        main->textures->floor_color = rgb_to_hex(main->textures->floor);
+        main->textures->floor_color = rgb_to_hex(main->textures->floor, &r, &g, &b);
     if (main->textures->ceiling)
-        main->textures->ceiling_color = rgb_to_hex(main->textures->ceiling);
+        main->textures->ceiling_color = rgb_to_hex(main->textures->ceiling, &r, &g, &b);
 }
 
 void init_textures(t_main *main)

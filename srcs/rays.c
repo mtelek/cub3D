@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:43:21 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 20:28:06 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,17 +138,23 @@ void	calc_ver_ray(t_ray *ray, t_main *main)
 
 void choose_shortest_ray(t_ray *ray)
 {
-    if (ray->horizontal_ray > 0 && (ray->vertical_ray == -1 || ray->horizontal_ray < ray->vertical_ray))
-    {
-        ray->hit_rx = ray->h_rx;
-        ray->hit_ry = ray->h_ry;
-        ray->wall_side = (ray->ra > M_PI) ? 'S' : 'N';
+	if (ray->horizontal_ray > 0 && (ray->vertical_ray == -1 || ray->horizontal_ray < ray->vertical_ray))
+	{
+		ray->hit_rx = ray->h_rx;
+		ray->hit_ry = ray->h_ry;
+		if (ray->ra > M_PI)
+    		ray->wall_side = 'S';
+		else
+			ray->wall_side = 'N';
     }
-    else if (ray->vertical_ray > 0)
-    {
-        ray->hit_rx = ray->v_rx;
-        ray->hit_ry = ray->v_ry;
-        ray->wall_side = (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2) ? 'E' : 'W';
+	else if (ray->vertical_ray > 0)
+	{
+		ray->hit_rx = ray->v_rx;
+		ray->hit_ry = ray->v_ry;
+		if (ray->ra > M_PI_2 && ray->ra < 3 * M_PI_2)
+			ray->wall_side = 'E';
+		else
+			ray->wall_side = 'W';
     }
 }
 
@@ -177,14 +183,18 @@ void copy_pix_line(t_texture *text, char *temp_text, int y)
 	int	temp_offset;
 	int	data_offset;
 
-	for (x = text->width - 1; x >= 0; x--)
+	x = text->width -1;
+	while (x >= 0)
 	{
-		for (byte = 0; byte < text->bpp / 8; byte++)
+		byte = 0;
+		while (byte < text->bpp / 8)
 		{
 			temp_offset = y * text->size_line + (text->width - x - 1) * (text->bpp / 8) + byte;
 			data_offset = y * text->size_line + x * (text->bpp / 8) + byte;
 			temp_text[temp_offset] = text->data[data_offset];
+			byte++;
 		}
+		x--;
 	}
 }
 
@@ -199,7 +209,8 @@ void reverse_texture(t_texture *text)
 		printf(ERR_MF_TEMP_TEXT);
 		exit(1); //proper freeing missing
 	}
-	for (y = 0; y < text->height; y++)
+	y = -1;
+	while (++y < text->height)
 		copy_pix_line(text, temp_text, y);
 	ft_memcpy(text->data, temp_text, text->size_line * text->height);
 	free(temp_text);
@@ -207,11 +218,14 @@ void reverse_texture(t_texture *text)
 
 void draw_rays(t_main *main)
 {
+	int x;
+	int y;
     t_ray ray;
 	t_texture *texture = NULL;
 
     float start_angle = normalize_angle(main->player_data->player_angle - main->data->fov / 2);
-    for (int x = 0; x < main->pov; x++)
+	x = -1;
+    while (++x < main->pov)
     {
         float ray_angle = normalize_angle(start_angle + x * main->data->angle_step);
         ray = cast_single_ray(main, ray_angle, x);
@@ -224,10 +238,12 @@ void draw_rays(t_main *main)
         else if (ray.wall_side == 'S') texture = main->textures->so;
         else if (ray.wall_side == 'W') texture = main->textures->we;
         else if (ray.wall_side == 'E') texture = main->textures->ea;
-        for (int y = 0; y < wall_top; y++) {
+		y = -1;
+        while (++y < wall_top)
             put_pixel_to_image(main, screen_x, y, main->textures->ceiling_color);
-        }
-        for (int y = wall_top; y < wall_bottom; y++) {
+		y = wall_top - 1;
+        while (++y < wall_bottom)
+		{
             int tex_y = (y - wall_top) * texture->height / wall_height;
             int tex_x;
             if (ray.wall_side == 'N' || ray.wall_side == 'S')
@@ -237,8 +253,8 @@ void draw_rays(t_main *main)
             int color = *(int *)(texture->data + tex_y * texture->size_line + tex_x * (texture->bpp / 8));
 			put_pixel_to_image(main, screen_x, y, color);
         }
-        for (int y = wall_bottom; y < main->s_height; y++) {
+		y = wall_bottom - 1;
+        while (++y < main->s_height)
             put_pixel_to_image(main, screen_x, y, main->textures->floor_color);
-        }
     }
 }

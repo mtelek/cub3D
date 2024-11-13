@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:33:49 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 20:17:24 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,17 @@ void	count_row(t_main *main)
 
 void draw_rectangle(t_main *main, int x, int y, int color)
 {
-    for (int i = 0; i < main->map->mapS; i++)
+	int	screen_x;
+	int	screen_y;
+	
+	int i = -1;
+    while (++i < main->map->mapS)
     {
-        for (int j = 0; j < main->map->mapS; j++)
+		int j = -1;
+        while (++j < main->map->mapS)
         {
-            int screen_x = x + i;
-            int screen_y = y + j;
+            screen_x = x + i;
+            screen_y = y + j;
             put_pixel_to_image(main, screen_x, screen_y, color);
         }
     }

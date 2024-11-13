@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:37:38 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 20:18:54 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	init_mlx(t_main *main)
 {
 	int hook1;
 	int hook2;
+	
 	get_display_resolution(main);
 	main->pov = main->s_width;
 	init_data(main);

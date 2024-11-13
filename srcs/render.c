@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:19:56 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/13 20:40:38 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,24 @@
 
 void draw_line(t_main *main, int x0, int y0, int x1, int y1)
 {
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
+    int dx;
+    int dy;
+    int sx;
+    int sy;
+    int err;
     int e2;
 
+    dx = abs(x1 - x0);
+    dy = abs(y1 - y0);
+    err = dx - dy;
+    if (x0 < x1)
+        sx = 1;
+    else
+        sx = -1;
+    if (y0 < y1)
+        sy = 1;
+    else
+        sy = -1;
     while (1)
     {
         put_pixel_to_image(main, x0, y0, PLAYER_COLOR);
@@ -40,23 +51,24 @@ void draw_line(t_main *main, int x0, int y0, int x1, int y1)
     }
 }
 
-
 void draw_player(t_main *main)
 {
     int x, y;
     int line_x;
     int line_y;
-
-    for (y = -main->player_data->player_size; y <= main->player_data->player_size; y++)
+    int screen_x;
+    int screen_y;
+    
+    y = -main->player_data->player_size - 1;
+    while (++y <= main->player_data->player_size)
     {
-        for (x = -main->player_data->player_size; x <= main->player_data->player_size; x++)
+        x = -main->player_data->player_size - 1;
+        while (++x <= main->player_data->player_size)
         {
-            int screen_x = main->player_data->px + x;
-            int screen_y = main->player_data->py + y;
+            screen_x = main->player_data->px + x;
+            screen_y = main->player_data->py + y;
             if (screen_x >= 0 && screen_x < main->s_width && screen_y >= 0 && screen_y < main->s_height)
-            {
                 put_pixel_to_image(main, screen_x, screen_y, PLAYER_COLOR);
-            }
         }
     }
     line_x = main->player_data->px + main->player_data->pdx * 20;
@@ -79,13 +91,13 @@ void init_image(t_data *data, int width, int height)
     data->img = mlx_new_image(data->mlx_ptr, width, height);
     if (!data->img)
     {
-        printf(ERR_NO_IMG);
+        printf(ERR_NO_IMG); //free missing
         exit(1);
     }
     data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line, &data->endian);
     if (!data->img_data)
     {
-        printf(ERR_NO_IMG_DATA_ADDRESS);
+        printf(ERR_NO_IMG_DATA_ADDRESS); //free missing
         exit(1);
     }
 }
