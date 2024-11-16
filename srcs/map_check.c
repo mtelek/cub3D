@@ -6,11 +6,32 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:52:00 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:30:23 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/16 19:19:00 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
+
+int	is_position_wall(t_main *main, float px, float py)
+{
+	int	map_x;
+	int	map_y;
+	int	buffer;
+
+	map_x = (int)(px / main->map->mapS);
+	map_y = (int)(py / main->map->mapS);
+	buffer = main->player_data->player_size / 2;
+	if (map_x < 0 || map_x >= main->map->mapX[map_y] || map_y < 0
+		|| map_y >= main->map->mapY)
+		return (1);
+	if (main->map->map[map_y][map_x] == '1' || main->map->map[(int)((py
+				- buffer) / main->map->mapS)][map_x] == '1'
+		|| main->map->map[(int)((py + buffer) / main->map->mapS)][map_x] == '1'
+		|| main->map->map[map_y][(int)((px - buffer) / main->map->mapS)] == '1'
+		|| main->map->map[map_y][(int)((px + buffer) / main->map->mapS)] == '1')
+		return (1);
+	return (0);
+}
 
 int	is_wall(t_main *main, float new_px, float new_py)
 {
@@ -18,38 +39,29 @@ int	is_wall(t_main *main, float new_px, float new_py)
 	int	curr_y;
 	int	new_x;
 	int	new_y;
-	int buffer = main->player_data->player_size / 2;
 
 	curr_x = (int)(main->player_data->px / main->map->mapS);
 	curr_y = (int)(main->player_data->py / main->map->mapS);
 	new_x = (int)(new_px / main->map->mapS);
 	new_y = (int)(new_py / main->map->mapS);
-	if (new_x < 0 || new_x >= main->map->mapX[new_y] || new_y < 0 || new_y >= main->map->mapY)
-		return (1);
-	if (main->map->map[new_y][new_x] == '1')
-		return (1);
-	if (main->map->map[(int)((new_py - buffer) / main->map->mapS)][new_x] == '1' ||
-		main->map->map[(int)((new_py + buffer) / main->map->mapS)][new_x] == '1' ||
-		main->map->map[new_y][(int)((new_px - buffer) / main->map->mapS)] == '1' ||
-		main->map->map[new_y][(int)((new_px + buffer) / main->map->mapS)] == '1')
+	if (is_position_wall(main, new_px, new_py))
 		return (1);
 	if (curr_x != new_x && curr_y != new_y)
 	{
-		if (main->map->map[curr_y][new_x] == '1' || main->map->map[new_y][curr_x] == '1')
+		if (main->map->map[curr_y][new_x] == '1'
+			|| main->map->map[new_y][curr_x] == '1')
 			return (1);
 	}
-
 	if (curr_x != new_x && curr_y == new_y)
 	{
-		if ((curr_x < new_x && main->map->map[curr_y][curr_x + 1] == '1') ||
-			(curr_x > new_x && main->map->map[curr_y][curr_x - 1] == '1'))
+		if ((curr_x < new_x && main->map->map[curr_y][curr_x + 1] == '1')
+			|| (curr_x > new_x && main->map->map[curr_y][curr_x - 1] == '1'))
 			return (1);
 	}
-
 	if (curr_y != new_y && curr_x == new_x)
 	{
-		if ((curr_y < new_y && main->map->map[curr_y + 1][curr_x] == '1') ||
-			(curr_y > new_y && main->map->map[curr_y - 1][curr_x] == '1'))
+		if ((curr_y < new_y && main->map->map[curr_y + 1][curr_x] == '1')
+			|| (curr_y > new_y && main->map->map[curr_y - 1][curr_x] == '1'))
 			return (1);
 	}
 	return (0);
@@ -71,8 +83,9 @@ int	check_lines(char *line, int end, char **map, int i)
 	k = -1;
 	while (map[i][++k])
 	{
-		if ((map[i][k] == '0' && (map[i - 1][k] == ' ' || map[i + 1][k] == ' ')) ||
-		(k > 0 && map[i][k] == '0' && (map[i][k-1] == ' ' || map[i][k+1] == ' ')))
+		if ((map[i][k] == '0' && (map[i - 1][k] == ' ' || map[i + 1][k] == ' '))
+			|| (k > 0 && map[i][k] == '0' && (map[i][k - 1] == ' ' || map[i][k
+					+ 1] == ' ')))
 			return (1);
 	}
 	return (0);

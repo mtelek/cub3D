@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 20:46:53 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/16 18:25:56 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_map(t_main *main)
 
 	i = 0;
 	while (main->content[i] && (main->content[i][0] != '0'
-		&& main->content[i][0] != '1' && main->content[i][0] != ' '))
+			&& main->content[i][0] != '1' && main->content[i][0] != ' '))
 		i++;
 	main->map->map = malloc(sizeof(char *) * (MAX_LINES - i));
 	if (!main->map->map)
@@ -40,68 +40,92 @@ int	init_map(t_main *main)
 	return (0);
 }
 
-int rgb_to_hex(const char *rgb_str, int *r, int *g, int *b)
+int	rgb_to_hex(const char *rgb_str, int *r, int *g, int *b)
 {
-    char *token;
-    char *rgb_copy;
+	char	*token;
+	char	*rgb_copy;
 
 	rgb_copy = ft_strdup(rgb_str);
-    token = ft_strtok(rgb_copy, ',');
-    if (token != NULL)
-        *r = ft_atoi(token);
-    token = ft_strtok(NULL, ',');
-    if (token != NULL)
-        *g = ft_atoi(token);
-    token = ft_strtok(NULL, ',');
-    if (token != NULL)
-        *b = ft_atoi(token);
-    free(rgb_copy);
-    if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
-    {
-        printf(ERR_INV_RGB);
-        exit(1); // Free any other resources here if needed
-    }
-    return ((*r << 16) | (*g << 8) | *b);
+	token = ft_strtok(rgb_copy, ',');
+	if (token != NULL)
+		*r = ft_atoi(token);
+	token = ft_strtok(NULL, ',');
+	if (token != NULL)
+		*g = ft_atoi(token);
+	token = ft_strtok(NULL, ',');
+	if (token != NULL)
+		*b = ft_atoi(token);
+	free(rgb_copy);
+	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
+	{
+		printf(ERR_INV_RGB);
+		exit(1); // Free any other resources here if needed
+	}
+	return ((*r << 16) | (*g << 8) | *b);
 }
 
-void init_floor_and_ceiling_colors(t_main *main)
+void	init_floor_and_ceiling_colors(t_textures *textures)
 {
-	int r;
-	int g;
-	int b;
+	int	r;
+	int	g;
+	int	b;
 
 	r = -1;
 	g = -1;
 	b = -1;
-    if (main->textures->floor)
-        main->textures->floor_color = rgb_to_hex(main->textures->floor, &r, &g, &b);
-    if (main->textures->ceiling)
-        main->textures->ceiling_color = rgb_to_hex(main->textures->ceiling, &r, &g, &b);
+	if (textures->floor)
+		textures->floor_color = rgb_to_hex(textures->floor, &r, &g, &b);
+	if (textures->ceiling)
+		textures->ceiling_color = rgb_to_hex(textures->ceiling, &r, &g, &b);
 }
 
-void init_textures(t_main *main)
+void	init_img(t_data *data, t_textures *textures)
 {
-    main->textures->no->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->no->path, &main->textures->no->width, &main->textures->no->height);
-    main->textures->so->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->so->path, &main->textures->so->width, &main->textures->so->height);
-    main->textures->we->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->we->path, &main->textures->we->width, &main->textures->we->height);
-    main->textures->ea->img = mlx_xpm_file_to_image(main->data->mlx_ptr, main->textures->ea->path, &main->textures->ea->width, &main->textures->ea->height);
-    if (!main->textures->no->img || !main->textures->so->img || !main->textures->we->img || !main->textures->ea->img)
-    {
-        printf(ERR_LOAD_TEX);
-        exit(1); // Add appropriate error handling here
-    }
-    main->textures->no->data = mlx_get_data_addr(main->textures->no->img, &main->textures->no->bpp, &main->textures->no->size_line, &main->textures->no->endian);
-	main->textures->so->data = mlx_get_data_addr(main->textures->so->img, &main->textures->so->bpp, &main->textures->so->size_line, &main->textures->so->endian);
-	main->textures->we->data = mlx_get_data_addr(main->textures->we->img, &main->textures->we->bpp, &main->textures->we->size_line, &main->textures->we->endian);
-	main->textures->ea->data = mlx_get_data_addr(main->textures->ea->img, &main->textures->ea->bpp, &main->textures->ea->size_line, &main->textures->ea->endian);
-	 if (!main->textures->no->data || !main->textures->so->data || !main->textures->we->data || !main->textures->ea->data)
-    {
-        printf(ERR_NO_TEX_DATA);
-        exit(1); // Add appropriate error handling here
-    }
-	reverse_texture(main->textures->no);
-	reverse_texture(main->textures->ea);
-	init_floor_and_ceiling_colors(main);
+	textures->no->img = mlx_xpm_file_to_image(data->mlx_ptr, textures->no->path,
+			&textures->no->width, &textures->no->height);
+	textures->so->img = mlx_xpm_file_to_image(data->mlx_ptr, textures->so->path,
+			&textures->so->width, &textures->so->height);
+	textures->we->img = mlx_xpm_file_to_image(data->mlx_ptr, textures->we->path,
+			&textures->we->width, &textures->we->height);
+	textures->ea->img = mlx_xpm_file_to_image(data->mlx_ptr, textures->ea->path,
+			&textures->ea->width, &textures->ea->height);
+	if (!textures->no->img || !textures->so->img || !textures->we->img
+		|| !textures->ea->img)
+	{
+		printf(ERR_LOAD_TEX);
+		exit(1); // Add appropriate error handling here
+	}
+}
+
+void	init_text_data(t_textures *textures)
+{
+	textures->no->data = mlx_get_data_addr(textures->no->img,
+			&textures->no->bpp, &textures->no->size_line,
+			&textures->no->endian);
+	textures->so->data = mlx_get_data_addr(textures->so->img,
+			&textures->so->bpp, &textures->so->size_line,
+			&textures->so->endian);
+	textures->we->data = mlx_get_data_addr(textures->we->img,
+			&textures->we->bpp, &textures->we->size_line,
+			&textures->we->endian);
+	textures->ea->data = mlx_get_data_addr(textures->ea->img,
+			&textures->ea->bpp, &textures->ea->size_line,
+			&textures->ea->endian);
+	if (!textures->no->data || !textures->so->data || !textures->we->data
+		|| !textures->ea->data)
+	{
+		printf(ERR_NO_TEX_DATA);
+		exit(1); // Add appropriate error handling here
+	}
+}
+
+void	init_textures(t_data *data, t_textures *textures)
+{
+	init_img(data, textures);
+	init_text_data(textures);
+	reverse_texture(textures->no);
+	reverse_texture(textures->ea);
+	init_floor_and_ceiling_colors(textures);
 }
 
 int	init_main(t_main *main)
@@ -116,7 +140,8 @@ int	init_main(t_main *main)
 	main->textures->so = malloc(sizeof(t_texture));
 	main->textures->we = malloc(sizeof(t_texture));
 	main->textures->ea = malloc(sizeof(t_texture));
-	if (!main->textures->no || !main->textures->so || !main->textures->we || !main->textures->ea)
+	if (!main->textures->no || !main->textures->so || !main->textures->we
+		|| !main->textures->ea)
 		return (printf(ERR_MF_TEX), 1);
 	main->data = (t_data *)malloc(sizeof(t_data));
 	if (!main->data)

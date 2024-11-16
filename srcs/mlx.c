@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 20:18:54 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/16 18:17:27 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_mlx(t_main *main)
 			main->s_height, "cub3D");
 	if (!main->data->win_ptr)
 		return (printf(ERR_WINDOW), 1);
-	init_textures(main);
+	init_textures(main->data, main->textures);
 	main->data->speed = get_speed(main);
 	hook1 = mlx_hook(main->data->win_ptr, 2, 1L << 0, handle_key_press, main);
 	hook2 = mlx_hook(main->data->win_ptr, 3, 1L << 1, handle_key_release, main);

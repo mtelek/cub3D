@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:43:35 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/16 18:17:25 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct s_main
 
 //INIT
 int		init_main(t_main *main);
-void 	init_textures(t_main *main);
+void 	init_textures(t_data *data, t_textures *textures);
 int		init_map(t_main *main);
 int		process_buffer(char *buffer, t_main *main, int *index);
 int		read_file(const char *filename, t_main *main);
