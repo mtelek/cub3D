@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:22:13 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/10 21:51:16 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 20:15:28 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,8 @@ void	update_direction(t_main *main, float angle)
 	main->player_data->pdy = sin(main->player_data->player_angle);
 }
 
-int	handle_key_press(int keycode, t_main *main)
+void	check_wasd(int keycode, t_main *main)
 {
-	if (keycode == 62307 || keycode == 65307)
-	{
-		mlx_destroy_window(main->data->mlx_ptr, main->data->win_ptr);
-		exit(0); //needed some freeing
-	}
 	if (keycode == 'w')
 	{
 		main->data->keys[0] = 1;
@@ -46,6 +41,16 @@ int	handle_key_press(int keycode, t_main *main)
 		main->data->keys[3] = 1;
 		main->flag_changed = 1;
 	}
+}
+
+int	handle_key_press(int keycode, t_main *main)
+{
+	if (keycode == 62307 || keycode == 65307)
+	{
+		mlx_destroy_window(main->data->mlx_ptr, main->data->win_ptr);
+		exit(0); // needed some freeing
+	}
+	check_wasd(keycode, main);
 	if (keycode == 65361 || keycode == 62361)
 	{
 		update_direction(main, -0.1);
@@ -72,39 +77,44 @@ int	handle_key_release(int keycode, t_main *main)
 	return (0);
 }
 
+void	check_keys(t_main *main, float *new_px, float *new_py)
+{
+	if (main->data->keys[0])
+	{
+		*new_px += main->player_data->pdx * main->data->speed;
+		*new_py += main->player_data->pdy * main->data->speed;
+		main->flag_changed = 1;
+	}
+	if (main->data->keys[1])
+	{
+		*new_px += main->player_data->pdy * main->data->speed;
+		*new_py -= main->player_data->pdx * main->data->speed;
+		main->flag_changed = 1;
+	}
+	if (main->data->keys[2])
+	{
+		*new_px -= main->player_data->pdx * main->data->speed;
+		*new_py -= main->player_data->pdy * main->data->speed;
+		main->flag_changed = 1;
+	}
+	if (main->data->keys[3])
+	{
+		*new_px -= main->player_data->pdy * main->data->speed;
+		*new_py += main->player_data->pdx * main->data->speed;
+		main->flag_changed = 1;
+	}
+}
+
 int	update_movement(t_main *main)
 {
 	float		new_px;
 	float		new_py;
 	static int	count;
 	static int	rerender;
-	
+
 	new_px = main->player_data->px;
 	new_py = main->player_data->py;
-	if (main->data->keys[0])
-	{
-		new_px += main->player_data->pdx * main->data->speed;
-		new_py += main->player_data->pdy * main->data->speed;
-		main->flag_changed = 1;
-	}
-	if (main->data->keys[1])
-	{
-		new_px += main->player_data->pdy * main->data->speed;
-		new_py -= main->player_data->pdx * main->data->speed;
-		main->flag_changed = 1;
-	}
-	if (main->data->keys[2])
-	{
-		new_px -= main->player_data->pdx * main->data->speed;
-		new_py -= main->player_data->pdy * main->data->speed;
-		main->flag_changed = 1;
-	}
-	if (main->data->keys[3])
-	{
-		new_px -= main->player_data->pdy * main->data->speed;
-		new_py += main->player_data->pdx * main->data->speed;
-		main->flag_changed = 1;
-	}
+	check_keys(main, &new_px, &new_py);
 	if (!is_wall(main, new_px, new_py))
 	{
 		main->player_data->px = new_px;

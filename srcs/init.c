@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/16 18:25:56 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 21:48:32 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_map(t_main *main)
 
 	i = 0;
 	while (main->content[i] && (main->content[i][0] != '0'
-			&& main->content[i][0] != '1' && main->content[i][0] != ' '))
+		&& main->content[i][0] != '1' && main->content[i][0] != ' '))
 		i++;
 	main->map->map = malloc(sizeof(char *) * (MAX_LINES - i));
 	if (!main->map->map)

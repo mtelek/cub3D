@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:52:00 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/16 19:19:00 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 19:03:38 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,29 @@ int	is_position_wall(t_main *main, float px, float py)
 	return (0);
 }
 
-int	is_wall(t_main *main, float new_px, float new_py)
+int	is_diagonal_wall(t_main *main, int curr_x, int curr_y, int new_pos[2])
 {
-	int	curr_x;
-	int	curr_y;
 	int	new_x;
 	int	new_y;
 
-	curr_x = (int)(main->player_data->px / main->map->mapS);
-	curr_y = (int)(main->player_data->py / main->map->mapS);
-	new_x = (int)(new_px / main->map->mapS);
-	new_y = (int)(new_py / main->map->mapS);
-	if (is_position_wall(main, new_px, new_py))
-		return (1);
+	new_x = new_pos[0];
+	new_y = new_pos[1];
 	if (curr_x != new_x && curr_y != new_y)
 	{
 		if (main->map->map[curr_y][new_x] == '1'
 			|| main->map->map[new_y][curr_x] == '1')
 			return (1);
 	}
+	return (0);
+}
+
+int	is_linear_wall(t_main *main, int curr_x, int curr_y, int new_pos[2])
+{
+	int	new_x;
+	int	new_y;
+
+	new_x = new_pos[0];
+	new_y = new_pos[1];
 	if (curr_x != new_x && curr_y == new_y)
 	{
 		if ((curr_x < new_x && main->map->map[curr_y][curr_x + 1] == '1')
@@ -64,6 +68,24 @@ int	is_wall(t_main *main, float new_px, float new_py)
 			|| (curr_y > new_y && main->map->map[curr_y - 1][curr_x] == '1'))
 			return (1);
 	}
+	return (0);
+}
+
+int	is_wall(t_main *main, float new_px, float new_py)
+{
+	int	curr_x;
+	int	curr_y;
+	int	new_pos[2] = {(int)(new_px / main->map->mapS), (int)(new_py
+				/ main->map->mapS)};
+
+	curr_x = (int)(main->player_data->px / main->map->mapS);
+	curr_y = (int)(main->player_data->py / main->map->mapS);
+	if (is_position_wall(main, new_px, new_py))
+		return (1);
+	if (is_diagonal_wall(main, curr_x, curr_y, new_pos))
+		return (1);
+	if (is_linear_wall(main, curr_x, curr_y, new_pos))
+		return (1);
 	return (0);
 }
 

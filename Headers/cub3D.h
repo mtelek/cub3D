@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/16 18:17:25 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 21:08:09 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@
 # define COLOR_MAP_WALL 0x7D7F7D 
 # define COLOR_MAP_FLOOR 0x000000
 # define DOF_LIMIT 150
+
+typedef struct s_renray
+{
+	float start_angle;
+	float ray_angle;
+	float perpendicular_distance;
+	float wall_height;
+	int wall_top;
+	int wall_bottom;
+	int screen_x; 
+}				t_renray;
 
 typedef struct s_ray
 {
