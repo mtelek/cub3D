@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:38:01 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 02:03:43 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/18 00:05:40 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	main(int argc, char **argv)
 	if (init_main(&main))
 		return (1);
 	if (read_file(argv[1], &main))
-		return (free(main.textures), 1);
+		return (1);
 	main.content_base = main.content;
-	if (split_content(&main))
+	if (split_content(&main)) //stopped here
 		return (free_after_split(&main), 1);
 	init_mlx(&main);
 	free_function(&main);

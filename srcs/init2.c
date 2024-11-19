@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:55:34 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:46:11 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/18 00:04:36 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	process_buffer(char *buffer, t_main *main, int *index)
 		*newline = '\0';
 		main->content[*index] = ft_strdup(line_start);
 		if (!main->content[*index])
-			return (printf(ERR_MF_STRDUP), 1);
+			return (printf(ERR_MF_STRDUP), free_init_main(main), free(main->content),  1);
 		(*index)++;
 		line_start = newline + 1;
 		newline = ft_strchr(line_start, '\n');
@@ -33,7 +33,7 @@ int	process_buffer(char *buffer, t_main *main, int *index)
 	{
 		main->content[*index] = ft_strdup(line_start);
 		if (!main->content[*index])
-			return (printf(ERR_MF_STRDUP), 1);
+			return (printf(ERR_MF_STRDUP), free_init_main(main), free(main->content), 1); //still wrong but skipped it
 		(*index)++;
 	}
 	return (0);
@@ -49,10 +49,10 @@ int	read_file(const char *filename, t_main *main)
 	i = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (perror(ERR_OPEN_FILE), 1);
+		return (perror(ERR_OPEN_FILE), free_init_main(main), 1);
 	main->content = malloc(sizeof(char *) * MAX_LINES);
 	if (!main->content)
-		return (printf(ERR_MF_CONTENT), close(fd), 1);
+		return (printf(ERR_MF_CONTENT), close(fd), free_init_main(main), 1);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	while (bytes_read > 0)
 	{
@@ -63,7 +63,7 @@ int	read_file(const char *filename, t_main *main)
 	}
 	main->content[i] = NULL;
 	if (close(fd) == -1)
-		return (perror(ERR_CLOSE_FILE), 1);
+		return (perror(ERR_CLOSE_FILE), free_init_main(main), free(main->content), 1); //its wrong as well
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/17 21:08:09 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 23:31:45 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,36 @@
 
 typedef struct s_renray
 {
-	float start_angle;
-	float ray_angle;
-	float perpendicular_distance;
-	float wall_height;
-	int wall_top;
-	int wall_bottom;
-	int screen_x; 
+	float	start_angle;
+	float	ray_angle;
+	float	perpendicular_distance;
+	float	wall_height;
+	int		wall_top;
+	int		wall_bottom;
+	int		screen_x; 
 }				t_renray;
 
 typedef struct s_ray
 {
-	int dof;
-	float atan;
-	float ntan;
-	float rx;
-	float ry;
-	float xo;
-	float yo;
-	int mx;
-	int my;
-	float vertical_ray;
-	float horizontal_ray;
-	float hit_rx;
-	float hit_ry;
-	float ra;
-	float h_rx;
-	float h_ry;
-	float v_rx;
-	float v_ry;
-	char wall_side;
+	int		dof;
+	float	atan;
+	float	ntan;
+	float	rx;
+	float	ry;
+	float	xo;
+	float	yo;
+	int		mx;
+	int		my;
+	float	vertical_ray;
+	float	horizontal_ray;
+	float	hit_rx;
+	float	hit_ry;
+	float	ra;
+	float	h_rx;
+	float	h_ry;
+	float	v_rx;
+	float	v_ry;
+	char	wall_side;
 }	t_ray;
 
 typedef struct s_player_data
@@ -180,6 +180,9 @@ void	get_display_resolution(t_main *main);
 //FREE
 void	free_function(t_main *main);
 void	free_after_split(t_main *main);
+void	free_textures(t_main *main);
+void	free_init_main(t_main *main);
+void	free_content(t_main *main);
 
 //LIBFT_UTILS
 char	*ft_strdup(const char *s1);

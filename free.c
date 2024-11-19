@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/11 21:27:27 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 23:38:23 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,22 @@ void	free_content(t_main *main)
 	}
 }
 
+void	free_init_main(t_main *main)
+{
+	free_textures(main);
+	free(main->data);
+	free(main->map);
+	free(main->player_data);
+}
+
 void	free_function(t_main *main)
 {
+	free_textures(main);
+	free(main->data);
+	free(main->map);
+	free(main->player_data); //till here init_main
 	free_content(main);
 	free_map(main);
-	free_textures(main);
 }
 
 void	free_after_split(t_main *main)

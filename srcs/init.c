@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/17 21:48:32 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/17 23:05:23 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,17 +140,19 @@ int	init_main(t_main *main)
 	main->textures->so = malloc(sizeof(t_texture));
 	main->textures->we = malloc(sizeof(t_texture));
 	main->textures->ea = malloc(sizeof(t_texture));
+	main->textures->ceiling = NULL;
+	main->textures->floor = NULL;
 	if (!main->textures->no || !main->textures->so || !main->textures->we
 		|| !main->textures->ea)
-		return (printf(ERR_MF_TEX), 1);
+		return (printf(ERR_MF_TEX), free_textures(main), 1);
 	main->data = (t_data *)malloc(sizeof(t_data));
 	if (!main->data)
-		return (printf(ERR_MF_DATA), 1);
+		return (printf(ERR_MF_DATA), free_textures(main), 1);
 	main->map = malloc(sizeof(t_map));
 	if (!main->map)
-		return (printf(ERR_MF_MAP_S), 1);
+		return (printf(ERR_MF_MAP_S), free_textures(main), free(main->data), 1);
 	main->player_data = (t_player_data *)malloc(sizeof(t_player_data));
 	if (!main->player_data)
-		return (printf(ERR_MF_PLAYER_D), 1);
+		return (printf(ERR_MF_PLAYER_D), free_textures(main), free(main->data), free(main->map), 1);
 	return (0);
 }
