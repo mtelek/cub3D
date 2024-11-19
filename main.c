@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:38:01 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/18 00:05:40 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:30:35 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	main(int argc, char **argv)
 
 	if (argc_check(argc))
 		return (1);
-	if (init_main(&main))
+	if (init_structs(&main))
 		return (1);
 	if (read_file(argv[1], &main))
 		return (1);
 	main.content_base = main.content;
-	if (split_content(&main)) //stopped here
-		return (free_after_split(&main), 1);
-	init_mlx(&main);
-	free_function(&main);
+	if (split_content(&main))
+		return (1);
+	if (init_mlx(&main))
+		return (1);
 	return (0);
 }

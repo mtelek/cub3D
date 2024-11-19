@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:22:13 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/17 20:15:28 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/19 17:22:51 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/cub3D.h"
-
-void	update_direction(t_main *main, float angle)
-{
-	main->player_data->player_angle += angle;
-	main->player_data->pdx = cos(main->player_data->player_angle);
-	main->player_data->pdy = sin(main->player_data->player_angle);
-}
 
 void	check_wasd(int keycode, t_main *main)
 {
@@ -47,8 +40,8 @@ int	handle_key_press(int keycode, t_main *main)
 {
 	if (keycode == 62307 || keycode == 65307)
 	{
-		mlx_destroy_window(main->data->mlx_ptr, main->data->win_ptr);
-		exit(0); // needed some freeing
+		exit_function(main);
+		exit(0);
 	}
 	check_wasd(keycode, main);
 	if (keycode == 65361 || keycode == 62361)
@@ -115,7 +108,7 @@ int	update_movement(t_main *main)
 	new_px = main->player_data->px;
 	new_py = main->player_data->py;
 	check_keys(main, &new_px, &new_py);
-	if (!is_wall(main, new_px, new_py))
+	if (rerender && !is_wall(main, new_px, new_py))
 	{
 		main->player_data->px = new_px;
 		main->player_data->py = new_py;
@@ -132,18 +125,4 @@ int	update_movement(t_main *main)
 		main->flag_changed = 0;
 	}
 	return (0);
-}
-
-void	set_player_angle(t_main *main)
-{
-	if (main->player_data->direction == 'N')
-		main->player_data->player_angle = 3 * M_PI / 2;
-	else if (main->player_data->direction == 'S')
-		main->player_data->player_angle = M_PI / 2;
-	else if (main->player_data->direction == 'E')
-		main->player_data->player_angle = 0;
-	else if (main->player_data->direction == 'W')
-		main->player_data->player_angle = M_PI;
-	main->player_data->pdx = cos(main->player_data->player_angle);
-	main->player_data->pdy = sin(main->player_data->player_angle);
 }

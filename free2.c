@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/17 23:38:23 by mtelek           ###   ########.fr       */
+/*   Created: 2024/11/19 18:01:57 by mtelek            #+#    #+#             */
+/*   Updated: 2024/11/19 18:14:50 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@ void	free_textures(t_main *main)
 {
 	if (main->textures)
 	{
+		if (main->textures->no->path)
+			free(main->textures->no->path);
+		if (main->textures->so->path)
+			free(main->textures->so->path);
+		if (main->textures->we->path)
+			free(main->textures->we->path);
+		if (main->textures->ea->path)
+			free(main->textures->ea->path);
+		if (main->textures->floor)
+			free(main->textures->floor);
+		if (main->textures->ceiling)
+			free(main->textures->ceiling);
 		if (main->textures->no)
 			free(main->textures->no);
 		if (main->textures->so)
@@ -24,10 +36,6 @@ void	free_textures(t_main *main)
 			free(main->textures->we);
 		if (main->textures->ea)
 			free(main->textures->ea);
-		if (main->textures->floor)
-			free(main->textures->floor);
-		if (main->textures->ceiling)
-			free(main->textures->ceiling);
 		free(main->textures);
 		main->textures = NULL;
 	}
@@ -45,11 +53,18 @@ void	free_map(t_main *main)
 			while (main->map->map[++i])
 				free(main->map->map[i]);
 			free(main->map->map);
+			main->map->map = NULL;
 		}
 		if (main->map->mapX)
+		{
 			free(main->map->mapX);
-		free(main->map);
-		main->map = NULL;
+			main->map->mapX = NULL;
+		}
+		if (main->map)
+		{
+			free(main->map);
+			main->map = NULL;
+		}
 	}
 }
 
@@ -65,28 +80,4 @@ void	free_content(t_main *main)
 		free(main->content);
 		main->content = NULL;
 	}
-}
-
-void	free_init_main(t_main *main)
-{
-	free_textures(main);
-	free(main->data);
-	free(main->map);
-	free(main->player_data);
-}
-
-void	free_function(t_main *main)
-{
-	free_textures(main);
-	free(main->data);
-	free(main->map);
-	free(main->player_data); //till here init_main
-	free_content(main);
-	free_map(main);
-}
-
-void	free_after_split(t_main *main)
-{
-	free_content(main);
-	free_textures(main);
 }
