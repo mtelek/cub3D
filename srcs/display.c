@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:18:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 22:08:45 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 22:14:18 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	get_display_resolution(t_main *main)
 	int		fd;
 	char	resolution[100];
 
-	fd = open("/syss/class/graphics/fb0/virtual_size", O_RDONLY);
+	fd = open("/sys/class/graphics/fb0/virtual_size", O_RDONLY);
 	if (fd == -1)
 	{
 		printf(ERR_FRAME_BUFF);
