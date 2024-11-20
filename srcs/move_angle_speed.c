@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:43 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:11:28 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:18:42 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ float	get_speed(t_main *main)
 	if (round(devide) <= 1)
 		return (1.1);
 	else
-		return (3); // could calc it better
+		return (3);
 }
 
 void	update_direction(t_main *main, float angle)

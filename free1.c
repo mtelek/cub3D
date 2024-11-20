@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:02:26 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:14:20 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exit_function(t_main *main)
 
 void	free_init_main(t_main *main)
 {
-	free_textures(main);
+	free_just_texts(main);
 	free(main->data);
 	free(main->map);
 	free(main->player_data);

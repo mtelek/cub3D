@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_init.c                                         :+:      :+:    :+:   */
+/*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:56:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:13:36 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:24:52 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	draw_rectangle(t_main *main, int x, int y, int color)
 	int	j;
 
 	i = -1;
-	while (++i < main->map->mapS)
+	while (++i < main->map->map_s)
 	{
 		j = -1;
-		while (++j < main->map->mapS)
+		while (++j < main->map->map_s)
 		{
 			screen_x = x + i;
 			screen_y = y + j;
@@ -40,13 +40,13 @@ void	draw_map(t_main *main)
 	int	yo;
 
 	y = -1;
-	while (++y < main->map->mapY)
+	while (++y < main->map->map_y)
 	{
 		x = -1;
-		while (++x < main->map->mapX[y])
+		while (++x < main->map->map_x[y])
 		{
-			xo = x * main->map->mapS;
-			yo = y * main->map->mapS;
+			xo = x * main->map->map_s;
+			yo = y * main->map->map_s;
 			if (main->map->map[y][x] == '1')
 				draw_rectangle(main, xo, yo, COLOR_MAP_WALL);
 			else
@@ -55,23 +55,30 @@ void	draw_map(t_main *main)
 	}
 }
 
+int	malloc_map_x(t_main *main, int i)
+{
+	main->map->map[0] = NULL;
+	main->map->map_x = malloc(sizeof(int) * (MAX_LINES - i));
+	if (!main->map->map_x)
+		return (printf(ERR_MF_MAPX), 1);
+	return (0);
+}
+
 int	init_map(t_main *main)
 {
 	int	i;
 	int	map_index;
 
 	i = 0;
-	main->map->mapX = NULL;
+	main->map->map_x = NULL;
 	while (main->content[i] && (main->content[i][0] != '0'
 		&& main->content[i][0] != '1' && main->content[i][0] != ' '))
 		i++;
 	main->map->map = malloc(sizeof(char *) * (MAX_LINES - i));
 	if (!main->map->map)
 		return (printf(ERR_MF_MAP), 1);
-	main->map->map[0] = NULL;
-	main->map->mapX = malloc(sizeof(int) * (MAX_LINES - i));
-	if (!main->map->mapX)
-		return (printf(ERR_MF_MAPX), 1);
+	if (malloc_map_x(main, i))
+		return (1);
 	map_index = 0;
 	while (main->content[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 00:20:44 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/13 18:40:04 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 22:10:55 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@
 # define ERR_DISPLAY "Failed to open X display\n"
 # define ERR_INIT_MLX "Error initializing MLX\n"
 # define ERR_WINDOW "Error creating window\n"
-# define ERR_FRAME_BUFF "Failed to open framebuffer virtual_size.s Falling back to 800x800\n"
+# define ERR_FRAME_BUFF "Framebuffer error, using 800x800.\n"
 # define ERR_NO_RES "Could not read resolution. Falling back to 800x800\n"
 # define ERR_NO_IMG "Error: failed to create image\n"
 # define ERR_NO_IMG_DATA_ADDRESS "Error: Failed to get image data address\n"
 # define ERR_MLX_HOOK_F "Error: one of mlx hooks has failed\n"
 # define ERR_LOOP_HOOK "Error: Failed to register loop hook.\n"
-# define ERR_NO_MLX_WIN_PTR "Error: mlx_put_image_to_window cannot be executed\n"
-# define ERR_IMG_CREATE_F "Error: creating image with mlx_put_image_to_window failed\n"
-# define ERR_NO_MLX_PTR "Error: no value for mlx_ptr, mlx_loop cannot be executed\n"
+# define ERR_NO_MLX_WIN_PTR "Error: mlx_put_image_to_window failed\n."
+# define ERR_IMG_CREATE_F "Error: creating image  failed\n"
+# define ERR_NO_MLX_PTR "Error: mlx_ptr missing, mlx_loop failed\n."
 
 // MAP
 # define ERR_INV_MAP "Error: invalid map\n"

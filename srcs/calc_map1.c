@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calc_map.c                                         :+:      :+:    :+:   */
+/*   calc_map1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:09:07 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:11:58 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:38:18 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,34 @@ int	find_biggest_x(t_main *main)
 	return (max_x);
 }
 
-void	calc_mapS(t_main *main)
+void	calc_map_s(t_main *main)
 {
 	int	max_x;
 	int	max_y;
 
 	max_x = find_biggest_x(main);
-	max_y = main->map->mapY;
+	max_y = main->map->map_y;
 	if (max_x > max_y)
-		main->map->mapS = (float)main->s_width / 5.0f / (float)max_x;
+		main->map->map_s = (float)main->s_width / 5.0f / (float)max_x;
 	else
-		main->map->mapS = (float)main->s_height / 5.0f / (float)max_y;
-	main->map->mapS = round(main->map->mapS);
-	main->player_data->player_size = round(main->map->mapS / 5.0f);
+		main->map->map_s = (float)main->s_height / 5.0f / (float)max_y;
+	main->map->map_s = round(main->map->map_s);
+	main->player_data->player_size = round(main->map->map_s / 5.0f);
 }
 
 void	calc_player_pos(t_main *main)
 {
-	main->player_data->py = (main->player_data->py * main->map->mapS) + (0.5
-			* main->map->mapS);
-	main->player_data->px = (main->player_data->px * main->map->mapS) + (0.5
-			* main->map->mapS);
+	main->player_data->py = (main->player_data->py * main->map->map_s) + (0.5
+			* main->map->map_s);
+	main->player_data->px = (main->player_data->px * main->map->map_s) + (0.5
+			* main->map->map_s);
 }
 
 void	map_check_failed(t_main *main)
 {
-	free_function(main);
 	printf(ERR_INV_MAP);
-	exit(1);
+	mlx_destroy_image(main->data->mlx_ptr, main->data->img);
+	exit_function(main);
 }
 
 void	calc_map(t_main *main)
@@ -73,7 +73,7 @@ void	calc_map(t_main *main)
 	if (count == 0)
 	{
 		count_row(main);
-		calc_mapS(main);
+		calc_map_s(main);
 		calc_player_pos(main);
 		if (map_check(main) == 1)
 			map_check_failed(main);

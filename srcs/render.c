@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:34:10 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:47:43 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	init_image(t_data *data, int width, int height, t_main *main)
 	{
 		printf(ERR_NO_IMG);
 		exit_function(main);
-		exit(1);
 	}
 	data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line,
 			&data->endian);

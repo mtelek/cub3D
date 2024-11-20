@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:11:16 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 21:28:28 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ t_ray	cast_single_ray(t_main *main, float ra, int i)
 	choose_shortest_ray(&ray);
 	main->data->d_ray[i] = calc_ray_l(main->player_data->px,
 			main->player_data->py, ray.hit_rx, ray.hit_ry);
-	draw_line(main, (int)main->player_data->px, (int)main->player_data->py,
-		(int)ray.hit_rx, (int)ray.hit_ry);
+	draw_line(main, ray.hit_rx, ray.hit_ry);
 	return (ray);
 }
 
@@ -83,10 +82,10 @@ void	put_ray_to_img(t_main *main, t_ray *ray, t_renray *renray,
 	int	color;
 
 	if (ray->wall_side == 'N' || ray->wall_side == 'S')
-		tex_x = fmod(ray->hit_rx * (texture->width / main->map->mapS),
+		tex_x = fmod(ray->hit_rx * (texture->width / main->map->map_s),
 				texture->width);
 	else
-		tex_x = fmod(ray->hit_ry * (texture->width / main->map->mapS),
+		tex_x = fmod(ray->hit_ry * (texture->width / main->map->map_s),
 				texture->width);
 	put_floor_or_ceiling('C', main, renray);
 	y = renray->wall_top - 1;
@@ -117,7 +116,7 @@ void	draw_rays(t_main *main)
 		ray = cast_single_ray(main, renray.ray_angle, x);
 		renray.perpendicular_distance = main->data->d_ray[x]
 			* cos(main->player_data->player_angle - renray.ray_angle);
-		renray.wall_height = (main->map->mapS * main->data->proj_plane_dist)
+		renray.wall_height = (main->map->map_s * main->data->proj_plane_dist)
 			/ renray.perpendicular_distance;
 		renray.wall_top = (main->s_height / 2) - (renray.wall_height / 2);
 		renray.wall_bottom = renray.wall_top + renray.wall_height;

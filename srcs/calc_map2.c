@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:12:24 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:12:38 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 19:51:36 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	count_column(t_main *main, int row)
 		}
 		i++;
 	}
-	main->map->mapX[row] = i;
+	main->map->map_x[row] = i;
 }
 
 void	count_row(t_main *main)
@@ -41,5 +41,5 @@ void	count_row(t_main *main)
 		count_column(main, i);
 		i++;
 	}
-	main->map->mapY = i;
+	main->map->map_y = i;
 }

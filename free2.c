@@ -6,11 +6,28 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:01:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:14:50 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:08:24 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/cub3D.h"
+
+void	free_just_texts(t_main *main)
+{
+	if (main->textures)
+	{
+		if (main->textures->no)
+			free(main->textures->no);
+		if (main->textures->so)
+			free(main->textures->so);
+		if (main->textures->we)
+			free(main->textures->we);
+		if (main->textures->ea)
+			free(main->textures->ea);
+		free(main->textures);
+		main->textures = NULL;
+	}
+}
 
 void	free_textures(t_main *main)
 {
@@ -55,10 +72,10 @@ void	free_map(t_main *main)
 			free(main->map->map);
 			main->map->map = NULL;
 		}
-		if (main->map->mapX)
+		if (main->map->map_x)
 		{
-			free(main->map->mapX);
-			main->map->mapX = NULL;
+			free(main->map->map_x);
+			main->map->map_x = NULL;
 		}
 		if (main->map)
 		{

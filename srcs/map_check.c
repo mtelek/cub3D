@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:52:00 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:15:09 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:48:33 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,14 @@ int	check_first_last_line(char *line)
 	return (0);
 }
 
+void	init_check_chars_var(int *i, int *player_count, char ***map,
+			t_main *main)
+{
+	*i = -1;
+	*player_count = 0;
+	*map = main->map->map;
+}
+
 int	check_chars(t_main *main)
 {
 	char	**map;
@@ -56,10 +64,8 @@ int	check_chars(t_main *main)
 	int		j;
 	int		player_count;
 
-	i = -1;
-	player_count = 0;
-	map = main->map->map;
-	while (++i < main->map->mapY)
+	init_check_chars_var(&i, &player_count, &map, main);
+	while (++i < main->map->map_y)
 	{
 		j = -1;
 		while (map[i][++j])
@@ -90,11 +96,11 @@ int	map_check(t_main *main)
 		return (1);
 	if (check_first_last_line(map[0]) == 1)
 		return (1);
-	if (check_first_last_line(map[main->map->mapY - 1]) == 1)
+	if (check_first_last_line(map[main->map->map_y - 1]) == 1)
 		return (1);
-	while (++i < main->map->mapY - 1)
+	while (++i < main->map->map_y - 1)
 	{
-		if (check_lines(map[i], main->map->mapX[i], main->map->map, i) == 1)
+		if (check_lines(map[i], main->map->map_x[i], main->map->map, i) == 1)
 			return (1);
 	}
 	return (0);

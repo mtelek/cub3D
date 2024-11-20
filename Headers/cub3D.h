@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:15:03 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/20 22:08:35 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,18 @@
 # define BUFFER_SIZE 4096
 # define MAX_LINES 4096
 # define PLAYER_COLOR 0xFFFF00
-# define BASE_FOV (M_PI / 3.0f)
+# define BASE_FOV 1.0471975511965976
 # define COLOR_MAP_WALL 0x7D7F7D
 # define COLOR_MAP_FLOOR 0x000000
 # define DOF_LIMIT 150
+
+typedef struct s_line
+{
+	int				coords[4];
+	int				deltas[2];
+	int				steps[2];
+	int				err;
+}					t_line;
 
 typedef struct s_renray
 {
@@ -79,9 +87,9 @@ typedef struct s_player_data
 typedef struct s_map
 {
 	char			**map;
-	float			mapS;
-	int				mapY;
-	int				*mapX;
+	float			map_s;
+	int				map_y;
+	int				*map_x;
 }					t_map;
 
 typedef struct s_data
@@ -98,7 +106,7 @@ typedef struct s_data
 	int				size_line;
 	int				endian;
 	float			speed;
-	float fov; // could put it together with pov
+	float			fov;
 }					t_data;
 
 typedef struct s_texture
@@ -148,7 +156,7 @@ void				calc_ver_ray(t_ray *ray, t_main *main);
 
 // CALC_MAP1
 int					find_biggest_x(t_main *main);
-void				calc_mapS(t_main *main);
+void				calc_map_s(t_main *main);
 void				calc_player_pos(t_main *main);
 void				map_check_failed(t_main *main);
 void				calc_map(t_main *main);
@@ -166,7 +174,7 @@ void				read_bytes(t_main *main, int fd, char *resolution,
 void				get_display_resolution(t_main *main);
 
 // INIT_COLORS
-int					rgb_to_hex(const char *rgb_str, int *r, int *g, int *b,
+int					rgb_to_hex(const char *rgb_str, int *r, int *g,
 						t_main *main);
 void				init_floor_and_ceiling_colors(t_textures *textures,
 						t_main *main);
@@ -194,9 +202,7 @@ int					check_chars(t_main *main);
 int					map_check(t_main *main);
 
 // MAP_DRAW_PLAYER
-void				draw_line_segment(t_main *main, int *coords, int *deltas,
-						int *steps, int *err);
-void				draw_line(t_main *main, int x0, int y0, int x1, int y1);
+void				draw_line(t_main *main, int line_x, int line_y);
 void				draw_player(t_main *main);
 
 // MAP_WALL_CHECK
@@ -261,6 +267,7 @@ void				exit_function(t_main *main);
 void				free_init_main(t_main *main);
 void				free_function(t_main *main);
 void				free_after_split(t_main *main);
+void				free_just_texts(t_main *main);
 
 // FREE2
 void				free_textures(t_main *main);
