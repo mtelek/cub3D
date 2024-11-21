@@ -6,11 +6,20 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:01:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:08:24 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:53:22 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/cub3D.h"
+
+void	free_before_split(t_main *main)
+{
+	free_content(main);
+	free(main->data);
+	free(main->map);
+	free(main->player_data);
+	free_just_texts(main);
+}
 
 void	free_just_texts(t_main *main)
 {

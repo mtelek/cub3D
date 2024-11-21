@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:20:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 21:28:28 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:45:09 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ void	put_ray_to_img(t_main *main, t_ray *ray, t_renray *renray,
 				texture->width);
 	put_floor_or_ceiling('C', main, renray);
 	y = renray->wall_top - 1;
-	while (++y < renray->wall_bottom)
+	while (++y < renray->wall_bottom && y < main->s_height)
 	{
+		if (y < 0)
+			continue ;
 		tex_y = (y - renray->wall_top) * texture->height / renray->wall_height;
 		color = *(int *)(texture->data + tex_y * texture->size_line + tex_x
 				* (texture->bpp / 8));

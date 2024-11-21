@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 16:24:31 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:58:48 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,12 @@ void				init_image(t_data *data, int width, int height,
 						t_main *main);
 void				render(t_main *main, int count);
 
+// TEXT_PATH_CHECK
+void				init_var_val_cont(int counts[6], int *i, int *j);
+int					check_identifier(char *line, int *counts);
+char				*skip_whitespace(char *line);
+int					validate_content(t_main *main);
+
 // TEXT_PATH
 char				*find_line(t_main *main, char *to_find, int length);
 int					split_content(t_main *main);
@@ -270,6 +276,7 @@ void				free_init_main(t_main *main);
 void				free_function(t_main *main);
 void				free_after_split(t_main *main);
 void				free_just_texts(t_main *main);
+void				free_before_split(t_main *main);
 
 // FREE2
 void				free_textures(t_main *main);
