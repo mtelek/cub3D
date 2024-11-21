@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:21:43 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:18:42 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 15:55:33 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ float	get_speed(t_main *main)
 
 	devide = (float)main->s_width / (float)main->s_height;
 	if (round(devide) <= 1)
-		return (1.1);
+		return (0.5);
 	else
 		return (3);
 }

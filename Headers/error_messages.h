@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 00:20:44 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 22:10:55 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:25:48 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 # define ERROR_MESSAGES_H
 
 // CHECKS
-# define ERR_NO_MAP "Error, no map given\n"
-# define ERR_TOO_MANY_ARGS "Error, too many arguments\n"
-# define ERR_TEXTURE_MISSING "Error, texture is missing\n"
+# define ERR_NO_MAP "Error: no map given\n"
+# define ERR_TOO_MANY_ARGS "Error: too many arguments\n"
+# define ERR_TEXTURE_MISSING "Error: texture is missing\n"
+# define ERR_WRONG_F_TYPE "Error: wrong file type given\n"
 
 // MALLOC
 # define ERR_MAIN_STRUCT "Error, malloc for creating main struct failed\n"

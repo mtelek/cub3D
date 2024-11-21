@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:17:17 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:13:51 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ void	create_mlx_hooks(t_main *main)
 {
 	int	hook1;
 	int	hook2;
+	int	hook3;
 
 	hook1 = mlx_hook(main->data->win_ptr, 2, 1L << 0, handle_key_press, main);
 	hook2 = mlx_hook(main->data->win_ptr, 3, 1L << 1, handle_key_release, main);
-	if (!hook1 || !hook2)
+	hook3 = mlx_hook(main->data->win_ptr, 17, 0L, exit_at_closing, main);
+	if (!hook1 || !hook2 || !hook3)
 	{
 		printf(ERR_MLX_HOOK_F);
 		exit_function(main);

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 22:08:35 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:24:31 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define COLOR_MAP_WALL 0x7D7F7D
 # define COLOR_MAP_FLOOR 0x000000
 # define DOF_LIMIT 150
+# define FILE_EXT ".cub"
 
 typedef struct s_line
 {
@@ -263,6 +264,7 @@ char				*find_line(t_main *main, char *to_find, int length);
 int					split_content(t_main *main);
 
 // FREE
+int					exit_at_closing(t_main *main);
 void				exit_function(t_main *main);
 void				free_init_main(t_main *main);
 void				free_function(t_main *main);
@@ -282,5 +284,6 @@ char				*ft_strchr(const char *str, int c);
 int					ft_strncmp(const char *str1, const char *str2, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 char				*ft_strdup(const char *s1);
+int					ft_strcmp(char *s1, char *s2);
 
 #endif

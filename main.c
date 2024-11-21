@@ -6,11 +6,23 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:38:01 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:30:35 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:27:13 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/cub3D.h"
+
+int	file_type_check(char *filename)
+{
+	int	len;
+
+	len = ft_strlen(filename);
+	if (len < 4)
+		return (printf(ERR_WRONG_F_TYPE), 1);
+	if (ft_strcmp(&filename[len - 4], FILE_EXT) != 0)
+		return (printf(ERR_WRONG_F_TYPE), 1);
+	return (0);
+}
 
 int	argc_check(int argc)
 {
@@ -26,6 +38,8 @@ int	main(int argc, char **argv)
 	t_main	main;
 
 	if (argc_check(argc))
+		return (1);
+	if (file_type_check(argv[1]))
 		return (1);
 	if (init_structs(&main))
 		return (1);

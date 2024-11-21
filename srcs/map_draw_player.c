@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:32:44 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 21:59:32 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/21 15:53:58 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	calc_line_x_y(t_main *main)
 	int	line_x;
 	int	line_y;
 
-	line_x = main->player_data->px + main->player_data->pdx * 20;
-	line_y = main->player_data->py + main->player_data->pdy * 20;
+	line_x = main->player_data->px + main->player_data->pdx * 10;
+	line_y = main->player_data->py + main->player_data->pdy * 10;
 	draw_line(main, line_x, line_y);
 }
 
