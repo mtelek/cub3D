@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:54:55 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 18:58:48 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:57:38 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int					split_content(t_main *main);
 
 // FREE
 int					exit_at_closing(t_main *main);
-void				exit_function(t_main *main);
+void				exit_function(t_main *main, int exit_code);
 void				free_init_main(t_main *main);
 void				free_function(t_main *main);
 void				free_after_split(t_main *main);
@@ -292,5 +292,7 @@ int					ft_strncmp(const char *str1, const char *str2, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 char				*ft_strdup(const char *s1);
 int					ft_strcmp(char *s1, char *s2);
+int					ft_isspace(int c);
+int					ft_isdigit(int c);
 
 #endif

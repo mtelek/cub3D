@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movement.c                                         :+:      :+:    :+:   */
+/*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:22:13 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:22:51 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:13:17 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ void	check_wasd(int keycode, t_main *main)
 int	handle_key_press(int keycode, t_main *main)
 {
 	if (keycode == 62307 || keycode == 65307)
-	{
-		exit_function(main);
-		exit(0);
-	}
+		exit_function(main, 0);
 	check_wasd(keycode, main);
 	if (keycode == 65361 || keycode == 62361)
 	{

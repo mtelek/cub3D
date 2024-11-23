@@ -1,7 +1,7 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lmlx -lm -lXext -lX11
+CFLAGS = -Wall -Wextra -Werror -I/mnt/c/Users/marci/minilibx-linux -g #-fsanitize=address,undefined
+LDFLAGS = -L/mnt/c/Users/marci/minilibx-linux -lmlx -lm -lXext -lX11 -lmlx -lm -lXext -lX11
 SRCDIR = .
 OBJDIR = .objs
 SRCS = main.c \

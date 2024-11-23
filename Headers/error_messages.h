@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_messages.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 00:20:44 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 16:25:48 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:40:48 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define ERR_TOO_MANY_ARGS "Error: too many arguments\n"
 # define ERR_TEXTURE_MISSING "Error: texture is missing\n"
 # define ERR_WRONG_F_TYPE "Error: wrong file type given\n"
+# define ERR_BAD_F "Error: invalid floor configuration.\n"
+# define ERR_BAD_C "Error: invalid ceiling configuration.\n"
 
 // MALLOC
 # define ERR_MAIN_STRUCT "Error, malloc for creating main struct failed\n"

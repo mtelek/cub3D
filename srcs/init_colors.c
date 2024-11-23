@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_colors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:05:14 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:28:06 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:12:45 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	rgb_to_hex(const char *rgb_str, int *r, int *g, t_main *main)
 	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || b < 0 || b > 255)
 	{
 		printf(ERR_INV_RGB);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	return ((*r << 16) | (*g << 8) | b);
 }

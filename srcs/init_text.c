@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_text.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:56:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 18:14:21 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:12:51 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_img(t_data *data, t_textures *textures, t_main *main)
 		|| !textures->ea->img)
 	{
 		printf(ERR_LOAD_TEX);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 }
 
@@ -60,7 +60,7 @@ void	init_text_data(t_textures *textures, t_main *main)
 		|| !textures->ea->data)
 	{
 		printf(ERR_NO_TEX_DATA);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 }
 

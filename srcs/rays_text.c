@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays_text.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:26:13 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/19 17:26:54 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:13:23 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	reverse_texture(t_texture *text, t_main *main)
 	if (!temp_text)
 	{
 		printf(ERR_MF_TEMP_TEXT);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	y = -1;
 	while (++y < text->height)

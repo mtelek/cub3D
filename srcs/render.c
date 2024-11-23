@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:57:41 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:47:43 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:13:37 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_image(t_data *data, int width, int height, t_main *main)
 	if (!data->img)
 	{
 		printf(ERR_NO_IMG);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line,
 			&data->endian);
@@ -38,7 +38,7 @@ void	init_image(t_data *data, int width, int height, t_main *main)
 	{
 		printf(ERR_NO_IMG_DATA_ADDRESS);
 		mlx_destroy_image(main->data->mlx_ptr, main->data->img);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 }
 
@@ -57,7 +57,7 @@ void	render(t_main *main, int count)
 	{
 		printf(ERR_NO_MLX_WIN_PTR);
 		mlx_destroy_image(main->data->mlx_ptr, main->data->img);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	mlx_put_image_to_window(main->data->mlx_ptr, main->data->win_ptr,
 		main->data->img, 0, 0);
@@ -65,7 +65,7 @@ void	render(t_main *main, int count)
 	{
 		printf(ERR_IMG_CREATE_F);
 		mlx_destroy_image(main->data->mlx_ptr, main->data->img);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	mlx_destroy_image(main->data->mlx_ptr, main->data->img);
 }

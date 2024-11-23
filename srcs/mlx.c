@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 23:54:56 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 16:13:51 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:58:16 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	create_mlx_hooks(t_main *main)
 	if (!hook1 || !hook2 || !hook3)
 	{
 		printf(ERR_MLX_HOOK_F);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	if (mlx_loop_hook(main->data->mlx_ptr, update_movement, main) == 0)
 	{
 		printf(ERR_LOOP_HOOK);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 }
 
@@ -44,7 +44,7 @@ int	init_mlx(t_main *main)
 	if (!main->data->mlx_ptr)
 	{
 		printf(ERR_NO_MLX_PTR);
-		exit_function(main);
+		exit_function(main, 1);
 	}
 	mlx_loop(main->data->mlx_ptr);
 	return (0);

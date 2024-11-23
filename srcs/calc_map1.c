@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_map1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:09:07 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:38:18 by mtelek           ###   ########.fr       */
+/*   Updated: 2024/11/23 14:15:33 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	map_check_failed(t_main *main)
 {
 	printf(ERR_INV_MAP);
 	mlx_destroy_image(main->data->mlx_ptr, main->data->img);
-	exit_function(main);
+	exit_function(main, 1);
 }
 
 void	calc_map(t_main *main)
