@@ -71,7 +71,7 @@ Run the Game:
 ```bash
 ./cub3D test.cub
 ```
-Test.cub can be replacedd with a custom map file.
+Test.cub can be replaced with a custom map file.
 In all cases it should end with `.cub`.
 
 ### Controls
