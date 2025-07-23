@@ -35,18 +35,35 @@ jobs:
     - name: Setup test maps
       run: |
         mkdir -p maps
-        # Create invalid.cub
-        echo "invalid content" > maps/invalid.cub
+        # Invalid maps
+        echo "invalid content" > maps/invalid_content.cub
+        echo -e "NO texture.xpm\nSO texture.xpm\nWE texture.xpm\nEA texture.xpm\nF 255,0,0\nC 0,0,255\n\n111\n1P \n111" > maps/invalid_map_format.cub
+        echo -e "NO missing_texture.xpm\nSO texture.xpm\nWE texture.xpm\nEA texture.xpm\nF 300,0,0\nC 0,0,300\n\n111\n1P1\n111" > maps/invalid_texture_color.cub
+        echo -e "NO texture.xpm\nSO texture.xpm\nWE texture.xpm\nEA texture.xpm\nF 255,0,0\nC 0,0,255\n\n111\n1P1\n1 1" > maps/invalid_map_chars.cub
+        echo -e "NO texture.xpm\nSO texture.xpm\nWE texture.xpm\nEA texture.xpm\nF 255,0,0\nC 0,0,255\n\n111\n111\n111" > maps/missing_player.cub
 
     - name: Validate map handling
       run: |
-        echo "Testing invalid map (should fail)..."
-        if ./cub3D maps/invalid.cub 2>&1 | grep -q "Error"; then
-          echo "✓ Invalid map correctly rejected"
-        else
-          echo "✗ Invalid map not rejected" && exit 1
-        fi
+        echo "=== Testing invalid map cases ==="
+    
+        declare -A test_cases=(
+        ["invalid_content.cub"]="Invalid content"
+        ["invalid_map_format.cub"]="Map formatting"
+        ["invalid_texture_color.cub"]="Texture/color values"
+        ["invalid_map_chars.cub"]="Invalid map characters"
+        ["missing_player.cub"]="Missing player position"
+        )
 
+        for map in "${!test_cases[@]}"; do
+          echo "Testing ${test_cases[$map]} (should fail)..."
+          if ./cub3D "maps/$map" 2>&1 | grep -q "Error"; then
+            echo "✓ Correctly rejected: ${test_cases[$map]}"
+          else
+            echo "✗ Failed to reject: ${test_cases[$map]}" && exit 1
+          fi
+        done
+
+        echo "All invalid map tests passed successfully"
     - name: Memory check
       run: |
         mkdir -p logs
