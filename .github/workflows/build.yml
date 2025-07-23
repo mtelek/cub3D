@@ -35,10 +35,20 @@ jobs:
     - name: Setup test maps
       run: |
         mkdir -p maps
-        # Minimal valid map
-        echo -e "NO textures/wall.xpm\nSO textures/wall.xpm\nWE textures/wall.xpm\nEA textures/wall.xpm\nF 220,100,0\nC 135,206,235\n\n111\n1E1\n111" > maps/valid.cub
-        # Invalid map (missing textures)
-        echo -e "invalid content" > maps/invalid.cub
+        # Create valid.cub with proper line-by-line formatting
+        echo "NO textures/wall.xpm" > maps/valid.cub
+        echo "SO textures/wall.xpm" >> maps/valid.cub
+        echo "WE textures/wall.xpm" >> maps/valid.cub
+        echo "EA textures/wall.xpm" >> maps/valid.cub
+        echo "F 220,100,0" >> maps/valid.cub
+        echo "C 135,206,235" >> maps/valid.cub
+        echo "" >> maps/valid.cub
+        echo "111" >> maps/valid.cub
+        echo "1E1" >> maps/valid.cub
+        echo "111" >> maps/valid.cub
+        
+        # Create invalid.cub
+        echo "invalid content" > maps/invalid.cub
 
     - name: Validate map handling
       run: |
@@ -50,8 +60,8 @@ jobs:
         fi
 
         echo "Testing valid map (should pass)..."
-        if ./cub3D maps/valid.cub 2>&1 | grep -q "Error"; then
-          echo "✗ Valid map rejected" && exit 1
+        if ! ./cub3D maps/valid.cub >/dev/null 2>&1; then
+          echo "✗ Valid map rejected with exit code $?" && exit 1
         else
           echo "✓ Valid map accepted"
         fi
