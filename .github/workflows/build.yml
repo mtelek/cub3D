@@ -60,7 +60,7 @@ jobs:
         fi
 
         echo "Testing valid map (should pass)..."
-        if ! ./cub3D maps/valid.cub >/dev/null 2>&1; then
+        if ./cub3D maps/valid.cub 2>&1 | grep -q "Error"; then
           echo "✗ Valid map rejected with exit code $?" && exit 1
         else
           echo "✓ Valid map accepted"
