@@ -36,7 +36,7 @@ jobs:
       run: |
         mkdir -p maps
         # Minimal valid map
-        echo -e "NO textures/wall.xpm\nSO textures/wall.xpm\nWE textures/wall.xpm\nEA textures/wall.xpm\nF 220,100,0\nC 135,206,235\n111\n1P1\n111" > maps/valid.cub
+        echo -e "NO textures/wall.xpm\nSO textures/wall.xpm\nWE textures/wall.xpm\nEA textures/wall.xpm\nF 220,100,0\nC 135,206,235\n\n111\n1E1\n111" > maps/valid.cub
         # Invalid map (missing textures)
         echo -e "invalid content" > maps/invalid.cub
 
