@@ -6,11 +6,11 @@
 /*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:52:45 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/23 14:17:23 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/23 14:37:43 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Headers/cub3D.h"
+#include "../Headers/cub3D.h"
 
 int	exit_at_closing(t_main *main)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 22:38:01 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 16:27:13 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/23 14:38:08 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Headers/cub3D.h"
+#include "../Headers/cub3D.h"
 
 int	file_type_check(char *filename)
 {

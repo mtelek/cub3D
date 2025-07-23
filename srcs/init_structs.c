@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:50:58 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/20 20:16:25 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:22:07 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	init_data(t_main *main)
 		return (printf(ERR_MF_D_RAY), free_function(main), 1);
 	main->data->mlx_ptr = mlx_init();
 	if (!main->data->mlx_ptr)
-		return (printf(ERR_INIT_MLX), free_function(main), 1);
+		return (printf(ERR_INIT_MLX), free(main->data->d_ray), free_function(main), 1);
 	main->data->win_ptr = mlx_new_window(main->data->mlx_ptr, main->s_width,
 			main->s_height, "cub3D");
 	if (!main->data->win_ptr)

@@ -1,0 +1,42 @@
+# Object files and executables
+*.o
+*.a
+*.out
+cub3D
+cub3D_bonus
+
+# Build directories
+.objs/
+obj/
+build/
+
+# MinilibX files
+mlx
+libmlx.a
+
+# macOS specific
+.DS_Store
+._*
+
+# Editor/IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled binaries
+*.dSYM/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+
+# Personal files
+*.local
+
+# cub3D specific
+*.bmp
+*.cub

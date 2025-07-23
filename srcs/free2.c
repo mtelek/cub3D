@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mtelek <mtelek@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:01:57 by mtelek            #+#    #+#             */
-/*   Updated: 2024/11/21 18:53:22 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/23 14:37:47 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Headers/cub3D.h"
+#include "../Headers/cub3D.h"
 
 void	free_before_split(t_main *main)
 {
