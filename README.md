@@ -1,4 +1,7 @@
 # cub3D 🎮
+[![Build Status](https://github.com/mtelek/cub3D/actions/workflows/build.yml/badge.svg?cache_buster=1)](https://github.com/mtelek/cub3D/actions)
+[![Code Size](https://img.shields.io/github/languages/code-size/mtelek/cub3D?style=flat-square)](https://github.com/mtelek/cub3D)
+![Project Score](https://img.shields.io/badge/Minishell-105%25-brightgreen)  
 *A 42 School project recreating Wolfenstein 3D-style raycasting in C*
 
 ## Project Description ✨
