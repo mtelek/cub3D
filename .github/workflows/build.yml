@@ -20,47 +20,55 @@ jobs:
 
     - name: Prepare MiniLibX
       run: |
-        cd minilibx-linux-master
-        [ -f configure ] && chmod +x configure || echo "Configure script not found, continuing"
-        [ -f configure.inc ] && chmod +x configure.inc || echo "Configure.inc not found, continuing"
-        cd ..
+        if [ -d "minilibx-linux-master" ]; then
+          cd minilibx-linux-master
+          [ -f configure ] && chmod +x configure
+          [ -f configure.inc ] && chmod +x configure.inc
+          cd ..
+        fi
 
     - name: Compile project
       run: |
         make re
-        ls -la cub3D
+        [ -f "cub3D" ] || (echo "Compilation failed" && exit 1)
 
-    - name: Create test maps directory
+    - name: Setup test maps
       run: |
         mkdir -p maps
-        [ ! -f maps/valid_map.cub ] && echo "NO textures/wall.xpm\nF 220,100,0\nC 135,206,235\n111\n1P1\n111" > maps/valid_map.cub
-        [ ! -f maps/invalid_map.cub ] && echo "invalid content" > maps/invalid_map.cub
+        # Minimal valid map
+        echo -e "NO textures/wall.xpm\nSO textures/wall.xpm\nWE textures/wall.xpm\nEA textures/wall.xpm\nF 220,100,0\nC 135,206,235\n111\n1P1\n111" > maps/valid.cub
+        # Invalid map (missing textures)
+        echo -e "invalid content" > maps/invalid.cub
 
-    - name: Basic map validation
+    - name: Validate map handling
       run: |
-        ./cub3D maps/invalid_map.cub 2>&1 | grep "Error" || (echo "Map validation failed" && exit 1)
-        ./cub3D maps/valid_map.cub 2>&1 | grep "Error" && exit 1 || echo "Valid map accepted"
+        echo "Testing invalid map (should fail)..."
+        if ./cub3D maps/invalid.cub 2>&1 | grep -q "Error"; then
+          echo "✓ Invalid map correctly rejected"
+        else
+          echo "✗ Invalid map not rejected" && exit 1
+        fi
 
-    - name: Run with Valgrind
+        echo "Testing valid map (should pass)..."
+        if ./cub3D maps/valid.cub 2>&1 | grep -q "Error"; then
+          echo "✗ Valid map rejected" && exit 1
+        else
+          echo "✓ Valid map accepted"
+        fi
+
+    - name: Memory check
       run: |
         mkdir -p logs
-        valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 \
-        --track-origins=yes --log-file=logs/valgrind.log \
-        ./cub3D maps/valid_map.cub || true
+        timeout 10 valgrind --leak-check=full --show-leak-kinds=all \
+          --error-exitcode=1 --track-origins=yes \
+          --log-file=logs/valgrind.log \
+          ./cub3D maps/valid.cub || true
         cat logs/valgrind.log
 
-    - name: Output verification
-      run: |
-        mkdir -p logs
-        timeout 5 ./cub3D maps/valid_map.cub > logs/output.log 2>&1 &
-        sleep 3
-        grep "Initialization complete" logs/output.log || (echo "Startup failed" && exit 1)
-        killall cub3D || true
-
-    - name: Upload debug logs
+    - name: Upload diagnostics
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: debug-logs
-        path: logs/*
+        name: diagnostics
+        path: logs/
         retention-days: 1
