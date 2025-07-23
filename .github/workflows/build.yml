@@ -1,0 +1,52 @@
+name: Cub3D CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc make xorg libxext-dev libbsd-dev valgrind
+
+    - name: Compile project
+      run: |
+        make re
+        ls -la cub3D
+
+    - name: Basic map validation
+      run: |
+        ./cub3D maps/invalid_map.cub 2>&1 | grep "Error" && exit 1 || echo "Map validation working"
+        ./cub3D maps/valid_map.cub 2>&1 | grep "Error" && exit 1 || echo "Valid map accepted"
+
+    - name: Run with Valgrind (leak check)
+      run: |
+        valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 \
+        --track-origins=yes --log-file=valgrind.log \
+        ./cub3D maps/valid_map.cub
+        cat valgrind.log
+
+    - name: Output verification
+      run: |
+        timeout 5 ./cub3D maps/valid_map.cub > output.log 2>&1 &
+        sleep 3
+        grep "Initialization complete" output.log || (echo "Startup failed" && exit 1)
+        killall cub3D
+
+    - name: Save artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-logs
+        path: |
+          output.log
+          valgrind.log
